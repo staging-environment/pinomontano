@@ -96,6 +96,7 @@ class BusinessSeeder extends Seeder
         ];
 
         foreach ($businesses as $business) {
+            $business['is_approved'] = true;
             Business::create($business);
         }
     }

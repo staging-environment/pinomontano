@@ -220,44 +220,68 @@
         @endif
     </section>
 
-    <!-- Neighborhood Section -->
-    <section id="sobre-el-barrio" class="bg-gradient-to-br from-slate-900 to-emerald-950 text-white py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <span class="text-xs font-bold uppercase tracking-widest text-emerald-450">Orgullo de Sevilla</span>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mt-3">
-                        Pino Montano: Un barrio con alma e historia
-                    </h2>
-                    <p class="mt-6 text-slate-300 leading-relaxed">
-                        Pino Montano es uno de los barrios más dinámicos e importantes de la zona norte de Sevilla. Destaca por el carácter de sus vecinos, la intensa vida comunitaria y, sobre todo, por su robusto tejido de comercios de cercanía.
-                    </p>
-                    <p class="mt-4 text-slate-300 leading-relaxed">
-                        Desde pequeños talleres familiares hasta modernos servicios de salud y estética, los comercios de Pino Montano dan vida a nuestras calles y construyen el futuro del barrio. ¡Compra local y apoya a tus vecinos!
-                    </p>
-                    <div class="mt-8 flex flex-wrap gap-4">
-                        <div class="bg-white/10 backdrop-blur-sm border border-white/10 px-5 py-3 rounded-2xl">
-                            <span class="block text-2xl font-black text-emerald-400">30k+</span>
-                            <span class="text-xs text-slate-400">Vecinos</span>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur-sm border border-white/10 px-5 py-3 rounded-2xl">
-                            <span class="block text-2xl font-black text-emerald-400">100+</span>
-                            <span class="text-xs text-slate-400">Comercios locales</span>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur-sm border border-white/10 px-5 py-3 rounded-2xl">
-                            <span class="block text-2xl font-black text-emerald-400">100%</span>
-                            <span class="text-xs text-slate-400">Compromiso</span>
-                        </div>
+    <!-- Neighborhood History Section -->
+    <section id="sobre-el-barrio" class="bg-gradient-to-br from-slate-900 to-emerald-950 text-white py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.08),transparent_50%)]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-450 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">Historia e Identidad</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight mt-4">
+                    La Historia de Pino Montano
+                </h2>
+                <p class="mt-4 text-slate-350 text-base sm:text-lg">
+                    De tierras agrícolas a uno de los barrios más dinámicos y con mayor tejido comercial y social de la Sevilla obrera.
+                </p>
+            </div>
+
+            <!-- Interactive Timeline / Milestones -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Milestone 1 -->
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-extrabold text-lg mb-6 shadow-inner">
+                        1
                     </div>
+                    <span class="text-xs font-semibold text-emerald-400 tracking-wider">ORÍGENES RURALES</span>
+                    <h3 class="text-xl font-bold text-white mt-2">Los Cortijos y Huertas</h3>
+                    <p class="mt-4 text-sm text-slate-400 leading-relaxed">
+                        Hasta mediados del siglo XX, Pino Montano era una llanura agrícola al norte de Sevilla. El histórico **Cortijo de Pino Montano** presidía la zona rodeado de huertas que abastecían a la ciudad.
+                    </p>
                 </div>
-                <div class="relative">
-                    <div class="aspect-video rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-emerald-800 flex items-center justify-center p-8">
-                        <div class="text-center">
-                            <span class="text-4xl">🏙️</span>
-                            <h3 class="font-extrabold text-lg mt-4 text-white">#ComercioPinoMontano</h3>
-                            <p class="text-xs text-emerald-200 mt-2 max-w-xs mx-auto">Construyendo comunidad, apoyando a nuestros autónomos y comercios tradicionales todos los días.</p>
-                        </div>
+
+                <!-- Milestone 2 -->
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-extrabold text-lg mb-6 shadow-inner">
+                        2
                     </div>
+                    <span class="text-xs font-semibold text-emerald-400 tracking-wider">AÑOS 70 y 80</span>
+                    <h3 class="text-xl font-bold text-white mt-2">Nacimiento del Barrio</h3>
+                    <p class="mt-4 text-sm text-slate-400 leading-relaxed">
+                        Se levantan los primeros bloques de pisos residenciales para acoger a familias trabajadoras. Nace así la fuerte identidad de un barrio unido, forjado con la solidaridad de sus vecinos desde el primer día.
+                    </p>
+                </div>
+
+                <!-- Milestone 3 -->
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-extrabold text-lg mb-6 shadow-inner">
+                        3
+                    </div>
+                    <span class="text-xs font-semibold text-emerald-400 tracking-wider">AÑOS 90</span>
+                    <h3 class="text-xl font-bold text-white mt-2">Consolidación y Lucha</h3>
+                    <p class="mt-4 text-sm text-slate-400 leading-relaxed">
+                        A través de movimientos asociativos y demandas vecinales se consiguieron los primeros colegios, centros de salud, parques como el **Parque de Miraflores** y las conexiones de transporte.
+                    </p>
+                </div>
+
+                <!-- Milestone 4 -->
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-extrabold text-lg mb-6 shadow-inner">
+                        4
+                    </div>
+                    <span class="text-xs font-semibold text-emerald-400 tracking-wider">ACTUALIDAD</span>
+                    <h3 class="text-xl font-bold text-white mt-2">El Motor del Comercio</h3>
+                    <p class="mt-4 text-sm text-slate-400 leading-relaxed">
+                        Pino Montano es hoy en día uno de los barrios más dinámicos y poblados de Sevilla, orgulloso de su historia de autogestión y con una amplísima red de pequeños comercios que impulsan la economía local.
+                    </p>
                 </div>
             </div>
         </div>

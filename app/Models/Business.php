@@ -18,5 +18,6 @@ class Business extends Model
         'logo',
         'banner_image',
         'is_featured',
+        'is_approved',
     ];
 }

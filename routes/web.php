@@ -23,11 +23,17 @@ Route::get('/', function (Request $request) {
         $query->where('category', $category);
     }
 
-    $businesses = $query->orderBy('is_featured', 'desc')
+    $businesses = $query->where('is_approved', true)
+                        ->orderBy('is_featured', 'desc')
                         ->orderBy('name', 'asc')
                         ->get();
 
-    $categories = Business::distinct()->orderBy('category')->pluck('category');
+    $categories = Business::where('is_approved', true)->distinct()->orderBy('category')->pluck('category');
 
     return view('welcome', compact('businesses', 'categories', 'search', 'category'));
 });
+
+use App\Http\Controllers\BusinessRegistrationController;
+
+Route::get('/unirse', [BusinessRegistrationController::class, 'create'])->name('business.register');
+Route::post('/unirse', [BusinessRegistrationController::class, 'store'])->name('business.store');
