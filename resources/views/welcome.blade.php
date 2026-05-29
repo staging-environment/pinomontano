@@ -44,11 +44,11 @@
             <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
                 <a href="#comercios" class="hover:text-emerald-600 transition-colors">Comercios</a>
                 <a href="#sobre-el-barrio" class="hover:text-emerald-600 transition-colors">Nuestro Barrio</a>
-                <a href="#contacto" class="hover:text-emerald-600 transition-colors">Registrar mi Negocio</a>
+                <a href="{{ route('business.register') }}" class="hover:text-emerald-600 transition-colors">Registrar mi Negocio</a>
             </nav>
 
             <div>
-                <a href="#contacto" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-slate-900 text-white font-semibold text-sm hover:bg-emerald-600 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-emerald-500/20 hover:-translate-y-0.5">
+                <a href="{{ route('business.register') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-slate-900 text-white font-semibold text-sm hover:bg-emerald-600 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-emerald-500/20 hover:-translate-y-0.5">
                     Sumar mi Comercio
                 </a>
             </div>
@@ -299,8 +299,8 @@
                 Queremos dar visibilidad a todos los comercios y servicios de Pino Montano de manera gratuita. Registra tu negocio para que tus vecinos puedan encontrarte fácilmente.
             </p>
             <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
-                <a href="mailto:hola@pinomontano.ddev.site?subject=Alta%20de%20Negocio%20Marketplace" class="px-8 py-3.5 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-md">
-                    Enviar Datos por Email
+                <a href="{{ route('business.register') }}" class="px-8 py-3.5 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-md">
+                    Comenzar Registro Online
                 </a>
                 <a href="tel:600000000" class="px-8 py-3.5 bg-slate-50 text-slate-700 border border-slate-200 font-bold rounded-xl hover:bg-slate-100 transition-colors">
                     Llamar al Coordinador
@@ -324,7 +324,7 @@
             <div class="flex gap-6 text-xs font-semibold text-slate-455">
                 <a href="#comercios" class="hover:text-white transition-colors">Comercios</a>
                 <a href="#sobre-el-barrio" class="hover:text-white transition-colors">Sobre el Barrio</a>
-                <a href="#contacto" class="hover:text-white transition-colors">Soporte</a>
+                <a href="mailto:soporte@pinomontano.ddev.site" class="hover:text-white transition-colors">Soporte</a>
             </div>
             <div class="text-xs text-slate-500">
                 Hecho con <span class="text-rose-500">♥</span> en Pino Montano, Sevilla.
