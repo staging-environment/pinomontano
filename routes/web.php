@@ -37,3 +37,7 @@ use App\Http\Controllers\BusinessRegistrationController;
 
 Route::get('/unirse', [BusinessRegistrationController::class, 'create'])->name('business.register');
 Route::post('/unirse', [BusinessRegistrationController::class, 'store'])->name('business.store');
+
+Route::get('/historia', function () {
+    return view('historia');
+})->name('barrio.history');

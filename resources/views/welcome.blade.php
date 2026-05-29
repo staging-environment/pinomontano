@@ -43,7 +43,7 @@
             
             <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
                 <a href="#comercios" class="hover:text-emerald-600 transition-colors">Comercios</a>
-                <a href="#sobre-el-barrio" class="hover:text-emerald-600 transition-colors">Nuestro Barrio</a>
+                <a href="{{ route('barrio.history') }}" class="hover:text-emerald-600 transition-colors">Nuestro Barrio</a>
                 <a href="{{ route('business.register') }}" class="hover:text-emerald-600 transition-colors">Registrar mi Negocio</a>
             </nav>
 
@@ -284,6 +284,15 @@
                     </p>
                 </div>
             </div>
+            
+            <div class="mt-12 text-center">
+                <a href="{{ route('barrio.history') }}" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-md transition-all">
+                    <span>Ver Historia Completa con Fotos e Inicios</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                    </svg>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -323,7 +332,7 @@
             </div>
             <div class="flex gap-6 text-xs font-semibold text-slate-455">
                 <a href="#comercios" class="hover:text-white transition-colors">Comercios</a>
-                <a href="#sobre-el-barrio" class="hover:text-white transition-colors">Sobre el Barrio</a>
+                <a href="{{ route('barrio.history') }}" class="hover:text-white transition-colors">Sobre el Barrio</a>
                 <a href="mailto:soporte@pinomontano.ddev.site" class="hover:text-white transition-colors">Soporte</a>
             </div>
             <div class="text-xs text-slate-500">
