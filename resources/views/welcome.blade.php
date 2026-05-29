@@ -106,12 +106,12 @@
 
             <div class="flex flex-wrap gap-2">
                 <a href="{{ request()->fullUrlWithQuery(['category' => null, 'search' => request('search')]) }}#comercios" 
-                   class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-205 {{ !$category ? 'bg-emerald-650 text-white shadow-md shadow-emerald-500/15' : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50' }}">
+                   class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-205 {{ !$category ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/15' : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50' }}">
                     Todos
                 </a>
                 @foreach($categories as $cat)
                     <a href="{{ request()->fullUrlWithQuery(['category' => $cat, 'search' => request('search')]) }}#comercios" 
-                       class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-205 {{ $category === $cat ? 'bg-emerald-650 text-white shadow-md shadow-emerald-500/15' : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50' }}">
+                       class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-205 {{ $category === $cat ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/15' : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50' }}">
                         {{ $cat }}
                     </a>
                 @endforeach
