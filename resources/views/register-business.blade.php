@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full">
+<html lang="es" class="h-full scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,9 +18,16 @@
             body { font-family: 'Outfit', sans-serif; }
         </style>
     @endif
-    
     <style>
         body {
+            font-family: 'Outfit', sans-serif;
+        }
+    </style>
+    <!-- Leaflet Map Assets -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <style>
+        .leaflet-container {
             font-family: 'Outfit', sans-serif;
         }
     </style>
@@ -40,13 +47,18 @@
                 </div>
             </a>
             
-            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
                 <a href="/#comercios" class="hover:text-emerald-600 transition-colors">Comercios</a>
-                <a href="/#sobre-el-barrio" class="hover:text-emerald-600 transition-colors">Nuestro Barrio</a>
-                <a href="/unirse" class="text-emerald-605 transition-colors">Registrar mi Negocio</a>
+                <a href="/historia" class="hover:text-emerald-600 transition-colors">Historia</a>
+                <a href="/de-donde-vinimos" class="hover:text-emerald-600 transition-colors">Orígenes</a>
+                <a href="/hacia-donde-vamos" class="hover:text-emerald-600 transition-colors">Futuro</a>
+                <a href="/#contacto" class="hover:text-emerald-600 transition-colors">Contacto</a>
             </nav>
 
-            <div>
+            <div class="flex items-center gap-6">
+                <a href="/admin" class="hidden sm:inline-flex text-sm font-bold text-slate-650 hover:text-emerald-600 transition-colors">
+                    Acceso Admin
+                </a>
                 <a href="/" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-700 font-semibold text-sm hover:bg-slate-50 transition-all duration-300 shadow-sm">
                     Volver al Inicio
                 </a>
@@ -146,6 +158,25 @@
                                class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-sm transition-all placeholder-slate-400">
                     </div>
 
+                    <!-- Map Location Picker -->
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Ubicación en el Mapa *</label>
+                        <p class="text-xs text-slate-505 mb-3">Haz clic en el mapa o arrastra el marcador verde hasta la ubicación exacta de tu negocio.</p>
+                        <div id="map-picker" class="w-full h-[320px] rounded-2xl border border-slate-200 shadow-inner z-10"></div>
+                    </div>
+
+                    <!-- Coordinates (Read-only) -->
+                    <div>
+                        <label for="latitude" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Latitud *</label>
+                        <input type="text" name="latitude" id="latitude" value="{{ old('latitude') }}" readonly required
+                               class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-100/50 text-slate-500 text-sm transition-all cursor-not-allowed">
+                    </div>
+                    <div>
+                        <label for="longitude" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Longitud *</label>
+                        <input type="text" name="longitude" id="longitude" value="{{ old('longitude') }}" readonly required
+                               class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-100/50 text-slate-500 text-sm transition-all cursor-not-allowed">
+                    </div>
+
                     <!-- Description -->
                     <div class="sm:col-span-2">
                         <label for="description" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Descripción del Negocio *</label>
@@ -189,5 +220,46 @@
         </div>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Default coordinates (Pino Montano center)
+            var defaultLat = 37.426;
+            var defaultLng = -5.965;
+
+            // Load coordinates from old input if validation failed, otherwise use default
+            var initialLat = document.getElementById('latitude').value || defaultLat;
+            var initialLng = document.getElementById('longitude').value || defaultLng;
+
+            // Set inputs to initial values
+            document.getElementById('latitude').value = initialLat;
+            document.getElementById('longitude').value = initialLng;
+
+            var map = L.map('map-picker').setView([initialLat, initialLng], 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+
+            // Add marker at initial position
+            var marker = L.marker([initialLat, initialLng], {
+                draggable: true
+            }).addTo(map);
+
+            // Update inputs on drag end
+            marker.on('dragend', function (e) {
+                var position = marker.getLatLng();
+                document.getElementById('latitude').value = position.lat.toFixed(8);
+                document.getElementById('longitude').value = position.lng.toFixed(8);
+            });
+
+            // Update marker and inputs on map click
+            map.on('click', function (e) {
+                marker.setLatLng(e.latlng);
+                document.getElementById('latitude').value = e.latlng.lat.toFixed(8);
+                document.getElementById('longitude').value = e.latlng.lng.toFixed(8);
+            });
+        });
+    </script>
 </body>
 </html>

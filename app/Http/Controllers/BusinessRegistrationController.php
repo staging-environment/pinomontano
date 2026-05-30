@@ -14,7 +14,7 @@ class BusinessRegistrationController extends Controller
      */
     public function create()
     {
-        $categories = ['Restauración', 'Alimentación', 'Servicios', 'Salud y Belleza', 'Otros'];
+        $categories = ['Restauración', 'Alimentación', 'Servicios', 'Salud y Belleza', 'Peluquerías', 'Otros'];
         return view('register-business', compact('categories'));
     }
 
@@ -28,6 +28,8 @@ class BusinessRegistrationController extends Controller
             'description' => 'required|string|min:10|max:1000',
             'category' => 'required|string|max:255',
             'address' => 'required|string|max:255',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
             'phone' => 'required|string|max:20',
             'email' => 'required|email|max:255',
             'website' => 'nullable|url|max:255',
@@ -38,6 +40,10 @@ class BusinessRegistrationController extends Controller
             'description.min' => 'La descripción debe tener al menos 10 caracteres para que tus vecinos conozcan bien tu negocio.',
             'category.required' => 'Debes seleccionar una categoría.',
             'address.required' => 'La dirección física es obligatoria.',
+            'latitude.required' => 'Debes ubicar tu negocio en el mapa para obtener la latitud.',
+            'latitude.numeric' => 'La latitud debe ser un valor numérico válido.',
+            'longitude.required' => 'Debes ubicar tu negocio en el mapa para obtener la longitud.',
+            'longitude.numeric' => 'La longitud debe ser un valor numérico válido.',
             'phone.required' => 'El teléfono es obligatorio.',
             'email.required' => 'El correo electrónico de contacto es obligatorio.',
             'email.email' => 'Introduce un formato de correo electrónico válido.',

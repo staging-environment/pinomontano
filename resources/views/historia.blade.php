@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full">
+<html lang="es" class="h-full scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -40,13 +40,18 @@
                 </div>
             </a>
             
-            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
                 <a href="/#comercios" class="hover:text-emerald-600 transition-colors">Comercios</a>
-                <a href="/historia" class="text-emerald-600 transition-colors">Nuestro Barrio (Historia)</a>
-                <a href="/unirse" class="hover:text-emerald-600 transition-colors">Registrar mi Negocio</a>
+                <a href="/historia" class="text-emerald-600 transition-colors">Historia</a>
+                <a href="/de-donde-vinimos" class="hover:text-emerald-600 transition-colors">Orígenes</a>
+                <a href="/hacia-donde-vamos" class="hover:text-emerald-600 transition-colors">Futuro</a>
+                <a href="/#contacto" class="hover:text-emerald-600 transition-colors">Contacto</a>
             </nav>
 
-            <div>
+            <div class="flex items-center gap-6">
+                <a href="/admin" class="hidden sm:inline-flex text-sm font-bold text-slate-650 hover:text-emerald-600 transition-colors">
+                    Acceso Admin
+                </a>
                 <a href="/" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-700 font-semibold text-sm hover:bg-slate-50 transition-all duration-300 shadow-sm">
                     Volver al Inicio
                 </a>

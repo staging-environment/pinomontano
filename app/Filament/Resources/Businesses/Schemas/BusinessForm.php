@@ -39,6 +39,7 @@ class BusinessForm
                                 'Alimentación' => 'Alimentación',
                                 'Servicios' => 'Servicios',
                                 'Salud y Belleza' => 'Salud y Belleza',
+                                'Peluquerías' => 'Peluquerías',
                                 'Otros' => 'Otros',
                             ])
                             ->required(),
@@ -65,6 +66,16 @@ class BusinessForm
                             ->maxLength(255)
                             ->required()
                             ->columnSpanFull(),
+
+                        TextInput::make('latitude')
+                            ->label('Latitud')
+                            ->numeric()
+                            ->required(),
+
+                        TextInput::make('longitude')
+                            ->label('Longitud')
+                            ->numeric()
+                            ->required(),
 
                         Textarea::make('description')
                             ->label('Descripción')

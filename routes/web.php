@@ -24,11 +24,15 @@ Route::get('/', function (Request $request) {
     }
 
     $businesses = $query->where('is_approved', true)
+                        ->withAvg(['reviews' => function ($q) {
+                            $q->where('is_approved', true);
+                        }], 'rating')
+                        ->orderByRaw('COALESCE(reviews_avg_rating, 0) DESC')
                         ->orderBy('is_featured', 'desc')
                         ->orderBy('name', 'asc')
                         ->get();
 
-    $categories = Business::where('is_approved', true)->distinct()->orderBy('category')->pluck('category');
+    $categories = ['Restauración', 'Alimentación', 'Servicios', 'Salud y Belleza', 'Peluquerías', 'Otros'];
 
     return view('welcome', compact('businesses', 'categories', 'search', 'category'));
 });
@@ -41,3 +45,19 @@ Route::post('/unirse', [BusinessRegistrationController::class, 'store'])->name('
 Route::get('/historia', function () {
     return view('historia');
 })->name('barrio.history');
+Route::get('/de-donde-vinimos', function () {
+    return view('de-donde-vinimos');
+})->name('barrio.origins');
+
+Route::get('/hacia-donde-vamos', function () {
+    return view('hacia-donde-vamos');
+})->name('barrio.future');
+
+use App\Http\Controllers\BusinessController;
+
+Route::get('/negocio/{slug}', [BusinessController::class, 'show'])->name('business.show');
+Route::post('/negocio/{slug}/resena', [BusinessController::class, 'storeReview'])->name('business.review.store');
+
+use App\Http\Controllers\ContactController;
+
+Route::post('/contacto', [ContactController::class, 'store'])->name('contact.store');
