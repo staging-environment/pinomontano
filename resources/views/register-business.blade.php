@@ -107,7 +107,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('business.store') }}" method="POST" class="space-y-6">
+            <form action="{{ route('business.store') }}" method="POST" class="space-y-6" novalidate>
                 @csrf
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -115,54 +115,75 @@
                     <div class="sm:col-span-2">
                         <label for="name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Nombre del Negocio *</label>
                         <input type="text" name="name" id="name" value="{{ old('name') }}" placeholder="Ej: Talleres Mecánicos Pino Montano" required
-                               class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-sm transition-all placeholder-slate-400">
+                               class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 text-sm transition-all placeholder-slate-400 @error('name') border-rose-500 focus:ring-rose-500/20 focus:border-rose-500 @else border-slate-200 focus:ring-emerald-500/20 focus:border-emerald-500 @enderror">
+                        @error('name')
+                            <p class="mt-1.5 text-xs font-semibold text-rose-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Category -->
                     <div>
                         <label for="category" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Categoría del Negocio *</label>
                         <select name="category" id="category" required
-                                class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-sm transition-all text-slate-750 bg-white">
+                                class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 text-sm transition-all text-slate-750 bg-white @error('category') border-rose-500 focus:ring-rose-500/20 focus:border-rose-500 @else border-slate-200 focus:ring-emerald-500/20 focus:border-emerald-500 @enderror">
                             <option value="">-- Selecciona una categoría --</option>
                             @foreach($categories as $cat)
                                 <option value="{{ $cat }}" {{ old('category') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
                             @endforeach
                         </select>
+                        @error('category')
+                            <p class="mt-1.5 text-xs font-semibold text-rose-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Phone -->
                     <div>
                         <label for="phone" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Teléfono de Contacto *</label>
                         <input type="text" name="phone" id="phone" value="{{ old('phone') }}" placeholder="Ej: 954 123 456" required
-                               class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-sm transition-all placeholder-slate-400">
+                               class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 text-sm transition-all placeholder-slate-400 @error('phone') border-rose-500 focus:ring-rose-500/20 focus:border-rose-500 @else border-slate-200 focus:ring-emerald-500/20 focus:border-emerald-500 @enderror">
+                        @error('phone')
+                            <p class="mt-1.5 text-xs font-semibold text-rose-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Email -->
                     <div>
                         <label for="email" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Correo Electrónico *</label>
                         <input type="email" name="email" id="email" value="{{ old('email') }}" placeholder="Ej: contacto@tudominio.com" required
-                               class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-sm transition-all placeholder-slate-400">
+                               class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 text-sm transition-all placeholder-slate-400 @error('email') border-rose-500 focus:ring-rose-500/20 focus:border-rose-500 @else border-slate-200 focus:ring-emerald-500/20 focus:border-emerald-500 @enderror">
+                        @error('email')
+                            <p class="mt-1.5 text-xs font-semibold text-rose-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Website -->
                     <div>
                         <label for="website" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Página Web (Opcional)</label>
                         <input type="url" name="website" id="website" value="{{ old('website') }}" placeholder="Ej: https://tupagina.com"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-sm transition-all placeholder-slate-400">
+                               class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 text-sm transition-all placeholder-slate-400 @error('website') border-rose-500 focus:ring-rose-500/20 focus:border-rose-500 @else border-slate-200 focus:ring-emerald-500/20 focus:border-emerald-500 @enderror">
+                        @error('website')
+                            <p class="mt-1.5 text-xs font-semibold text-rose-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Physical Address -->
                     <div class="sm:col-span-2">
                         <label for="address" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Dirección Física en Pino Montano *</label>
                         <input type="text" name="address" id="address" value="{{ old('address') }}" placeholder="Ej: Calle Corral del Agua, 24, 41015 Sevilla" required
-                               class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-sm transition-all placeholder-slate-400">
+                               class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 text-sm transition-all placeholder-slate-400 @error('address') border-rose-500 focus:ring-rose-500/20 focus:border-rose-500 @else border-slate-200 focus:ring-emerald-500/20 focus:border-emerald-500 @enderror">
+                        @error('address')
+                            <p class="mt-1.5 text-xs font-semibold text-rose-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Map Location Picker -->
                     <div class="sm:col-span-2">
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Ubicación en el Mapa *</label>
                         <p class="text-xs text-slate-505 mb-3">Haz clic en el mapa o arrastra el marcador verde hasta la ubicación exacta de tu negocio.</p>
-                        <div id="map-picker" class="w-full h-[320px] rounded-2xl border border-slate-200 shadow-inner z-10"></div>
+                        <div id="map-picker" class="w-full h-[320px] rounded-2xl border shadow-inner z-10 @error('latitude') border-rose-500 ring-2 ring-rose-500/10 @else border-slate-200 @enderror"></div>
+                        @error('latitude')
+                            <p class="mt-1.5 text-xs font-semibold text-rose-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Coordinates (Read-only) -->
@@ -181,7 +202,10 @@
                     <div class="sm:col-span-2">
                         <label for="description" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Descripción del Negocio *</label>
                         <textarea name="description" id="description" rows="5" placeholder="Cuéntales a tus vecinos qué ofreces, especialidades, horarios, etc..." required
-                                  class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-sm transition-all placeholder-slate-400 resize-y">{{ old('description') }}</textarea>
+                                  class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 text-sm transition-all placeholder-slate-400 resize-y @error('description') border-rose-500 focus:ring-rose-500/20 focus:border-rose-500 @else border-slate-200 focus:ring-emerald-500/20 focus:border-emerald-500 @enderror">{{ old('description') }}</textarea>
+                        @error('description')
+                            <p class="mt-1.5 text-xs font-semibold text-rose-600">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
