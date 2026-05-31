@@ -32,6 +32,10 @@
         .leaflet-container {
             font-family: 'Outfit', sans-serif;
         }
+        .custom-marker-icon {
+            background: none !important;
+            border: none !important;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-full flex flex-col antialiased selection:bg-emerald-500 selection:text-white">
@@ -336,7 +340,49 @@
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 }).addTo(map);
 
-                var marker = L.marker([{{ $business->latitude }}, {{ $business->longitude }}]).addTo(map);
+                // Custom marker helper function
+                function getCustomIcon(category) {
+                    var emoji = '📍';
+                    var colorClass = 'bg-slate-500 border-slate-700 shadow-slate-500/20';
+
+                    switch (category) {
+                        case 'Restauración':
+                            emoji = '🍔';
+                            colorClass = 'bg-rose-500 border-rose-700 shadow-rose-500/20';
+                            break;
+                        case 'Alimentación':
+                            emoji = '🛒';
+                            colorClass = 'bg-amber-500 border-amber-700 shadow-amber-500/20';
+                            break;
+                        case 'Servicios':
+                            emoji = '🛠️';
+                            colorClass = 'bg-blue-500 border-blue-700 shadow-blue-500/20';
+                            break;
+                        case 'Salud y Belleza':
+                            emoji = '💖';
+                            colorClass = 'bg-emerald-500 border-emerald-700 shadow-emerald-500/20';
+                            break;
+                        case 'Peluquerías':
+                            emoji = '✂️';
+                            colorClass = 'bg-indigo-500 border-indigo-700 shadow-indigo-500/20';
+                            break;
+                        case 'Otros':
+                        default:
+                            emoji = '📍';
+                            colorClass = 'bg-slate-500 border-slate-700 shadow-slate-500/20';
+                            break;
+                    }
+
+                    return L.divIcon({
+                        className: 'custom-marker-icon',
+                        html: `<div class="flex items-center justify-center w-8 h-8 rounded-full border-2 border-white text-white font-bold shadow-lg ${colorClass} hover:scale-115 transition-all duration-200" style="font-size: 16px; line-height: 1;">${emoji}</div>`,
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 16],
+                        popupAnchor: [0, -16]
+                    });
+                }
+
+                var marker = L.marker([{{ $business->latitude }}, {{ $business->longitude }}], { icon: getCustomIcon("{{ $business->category }}") }).addTo(map);
                 marker.bindPopup(`
                     <div class="p-1">
                         <h4 class="text-xs font-bold text-slate-900 m-0">{{ $business->name }}</h4>

@@ -20,9 +20,6 @@
         </style>
     @endif
     <style>
-        html, body, a, button, select, input, textarea, [role="button"] {
-            cursor: url('/images/colilla_cursor.png'), auto !important;
-        }
         body {
             font-family: 'Outfit', sans-serif;
             position: relative;
@@ -49,6 +46,10 @@
     <style>
         .leaflet-container {
             font-family: 'Outfit', sans-serif;
+        }
+        .custom-marker-icon {
+            background: none !important;
+            border: none !important;
         }
     </style>
 </head>
@@ -123,31 +124,32 @@
                     </button>
                 </form>
             </div>
+
+            <!-- Categories Filter -->
+            <div id="comercios" class="flex flex-col md:flex-row md:items-center justify-between gap-6 mt-16 border-t border-slate-200/60 pt-10 text-left scroll-mt-24">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Directorio de Negocios</h2>
+                    <p class="text-sm text-slate-500 mt-1">Explora los comercios según tu necesidad</p>
+                </div>
+
+                <div class="flex flex-wrap gap-2">
+                    <a href="{{ request()->fullUrlWithQuery(['category' => null, 'search' => request('search')]) }}#comercios" 
+                       class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-205 {{ !$category ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/15' : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50' }}">
+                        Todos
+                    </a>
+                    @foreach($categories as $cat)
+                        <a href="{{ request()->fullUrlWithQuery(['category' => $cat, 'search' => request('search')]) }}#comercios" 
+                           class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-205 {{ $category === $cat ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/15' : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50' }}">
+                            {{ $cat }}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Marketplace Section -->
-    <section id="comercios" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 scroll-mt-24">
-        <!-- Categories Filter -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-b border-slate-200/60 pb-8">
-            <div>
-                <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Directorio de Negocios</h2>
-                <p class="text-sm text-slate-500 mt-1">Explora los comercios según tu necesidad</p>
-            </div>
-
-            <div class="flex flex-wrap gap-2">
-                <a href="{{ request()->fullUrlWithQuery(['category' => null, 'search' => request('search')]) }}#comercios" 
-                   class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-205 {{ !$category ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/15' : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50' }}">
-                    Todos
-                </a>
-                @foreach($categories as $cat)
-                    <a href="{{ request()->fullUrlWithQuery(['category' => $cat, 'search' => request('search')]) }}#comercios" 
-                       class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-205 {{ $category === $cat ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/15' : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50' }}">
-                        {{ $cat }}
-                    </a>
-                @endforeach
-            </div>
-        </div>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
         <!-- Search Results Notification -->
         @if($search || $category)
@@ -544,12 +546,54 @@
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map);
 
+            // Custom markers by category
+            function getCustomIcon(category) {
+                var emoji = '📍';
+                var colorClass = 'bg-slate-500 border-slate-700 shadow-slate-500/20';
+
+                switch (category) {
+                    case 'Restauración':
+                        emoji = '🍔';
+                        colorClass = 'bg-rose-500 border-rose-700 shadow-rose-500/20';
+                        break;
+                    case 'Alimentación':
+                        emoji = '🛒';
+                        colorClass = 'bg-amber-500 border-amber-700 shadow-amber-500/20';
+                        break;
+                    case 'Servicios':
+                        emoji = '🛠️';
+                        colorClass = 'bg-blue-500 border-blue-700 shadow-blue-500/20';
+                        break;
+                    case 'Salud y Belleza':
+                        emoji = '💖';
+                        colorClass = 'bg-emerald-500 border-emerald-700 shadow-emerald-500/20';
+                        break;
+                    case 'Peluquerías':
+                        emoji = '✂️';
+                        colorClass = 'bg-indigo-500 border-indigo-700 shadow-indigo-500/20';
+                        break;
+                    case 'Otros':
+                    default:
+                        emoji = '📍';
+                        colorClass = 'bg-slate-500 border-slate-700 shadow-slate-500/20';
+                        break;
+                }
+
+                return L.divIcon({
+                    className: 'custom-marker-icon',
+                    html: `<div class="flex items-center justify-center w-8 h-8 rounded-full border-2 border-white text-white font-bold shadow-lg ${colorClass} hover:scale-115 transition-all duration-200" style="font-size: 16px; line-height: 1;">${emoji}</div>`,
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 16],
+                    popupAnchor: [0, -16]
+                });
+            }
+
             // Storing marker items with metadata
             var markerItems = [];
 
             @foreach($businesses as $business)
                 @if($business->latitude && $business->longitude)
-                    var marker = L.marker([{{ $business->latitude }}, {{ $business->longitude }}]).addTo(map);
+                    var marker = L.marker([{{ $business->latitude }}, {{ $business->longitude }}], { icon: getCustomIcon("{{ $business->category }}") }).addTo(map);
                     marker.bindPopup(`
                         <div class="p-2 min-w-[200px]">
                             <span class="inline-block text-[10px] font-bold text-emerald-600 uppercase tracking-widest bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100/60 mb-2">
@@ -659,5 +703,7 @@
             }
         });
     </script>
+    <!-- Tailwind Safelist Trigger for Map Marker Colors -->
+    <div class="hidden bg-rose-500 border-rose-700 shadow-rose-500/20 bg-amber-500 border-amber-700 shadow-amber-500/20 bg-blue-500 border-blue-700 shadow-blue-500/20 bg-emerald-500 border-emerald-700 shadow-emerald-500/20 bg-indigo-500 border-indigo-700 shadow-indigo-500/20 bg-slate-500 border-slate-700 shadow-slate-500/20"></div>
 </body>
 </html>
