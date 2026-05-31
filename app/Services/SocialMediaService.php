@@ -141,6 +141,46 @@ class SocialMediaService
     }
 
     /**
+     * Publish a business on Telegram.
+     */
+    public function postToTelegram(Business $business): array
+    {
+        $botToken = config('services.telegram.bot_token');
+        $chatId = config('services.telegram.chat_id');
+
+        if (!$botToken || !$chatId) {
+            return ['status' => 'failed', 'error' => 'Telegram Bot Token or Chat ID is not configured.'];
+        }
+
+        $url = "https://api.telegram.org/bot{$botToken}/sendMessage";
+
+        $text = "¡Nuevo comercio en el Marketplace de Pino Montano! 🥳\n\n"
+              . "🛍️ *{$business->name}*\n"
+              . "📌 Categoría: {$business->category}\n"
+              . ($business->description ? "📝 " . Str::limit($business->description, 200) . "\n\n" : "\n")
+              . "📍 Dirección: {$business->address}\n"
+              . ($business->phone ? "📞 Teléfono: {$business->phone}\n" : "")
+              . "👉 Descubre más: [Ficha del comercio](" . route('business.show', $business->slug) . ")";
+
+        try {
+            $response = Http::post($url, [
+                'chat_id' => $chatId,
+                'text' => $text,
+                'parse_mode' => 'Markdown',
+                'disable_web_page_preview' => false,
+            ]);
+
+            if ($response->successful()) {
+                return ['status' => 'success', 'data' => $response->json()];
+            }
+
+            return ['status' => 'failed', 'error' => $response->body()];
+        } catch (\Exception $e) {
+            return ['status' => 'failed', 'error' => $e->getMessage()];
+        }
+    }
+
+    /**
      * Generate OAuth 1.0a Authorization header for X (Twitter) API.
      */
     private function getXAuthHeader(string $url, string $method, array $params = []): string

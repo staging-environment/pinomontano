@@ -25,6 +25,8 @@ class PublishDailyBusinessTest extends TestCase
             'services.meta.page_id' => 'test_page_id',
             'services.meta.instagram_business_id' => 'test_instagram_business_id',
             'services.meta.page_access_token' => 'test_page_access_token',
+            'services.telegram.bot_token' => 'test_bot_token',
+            'services.telegram.chat_id' => '@test_chat_id',
         ]);
     }
 
@@ -38,6 +40,7 @@ class PublishDailyBusinessTest extends TestCase
             'graph.facebook.com/v20.0/test_page_id/feed' => Http::response(['id' => 'fb_123'], 200),
             'graph.facebook.com/v20.0/test_instagram_business_id/media' => Http::response(['id' => 'ig_container_123'], 200),
             'graph.facebook.com/v20.0/test_instagram_business_id/media_publish' => Http::response(['id' => 'ig_123'], 200),
+            'api.telegram.org/bottest_bot_token/sendMessage' => Http::response(['ok' => true], 200),
         ]);
 
         // Business 1: Oldest, approved
@@ -74,7 +77,7 @@ class PublishDailyBusinessTest extends TestCase
 
         // Run the command
         $this->artisan('app:publish-daily-business')
-            ->expectsOutput('Configured platforms: x, facebook, instagram')
+            ->expectsOutput('Configured platforms: x, facebook, instagram, telegram')
             ->expectsOutput('Selected business: Bar Pepe (ID: ' . $business1->id . ')')
             ->expectsOutput('Publishing to x...')
             ->expectsOutput('Successfully published to x!')
@@ -82,6 +85,8 @@ class PublishDailyBusinessTest extends TestCase
             ->expectsOutput('Successfully published to facebook!')
             ->expectsOutput('Publishing to instagram...')
             ->expectsOutput('Successfully published to instagram!')
+            ->expectsOutput('Publishing to telegram...')
+            ->expectsOutput('Successfully published to telegram!')
             ->assertExitCode(0);
 
         // Verify database records are created
@@ -100,9 +105,14 @@ class PublishDailyBusinessTest extends TestCase
             'platform' => 'instagram',
             'status' => 'success',
         ]);
+        $this->assertDatabaseHas('social_posts', [
+            'business_id' => $business1->id,
+            'platform' => 'telegram',
+            'status' => 'success',
+        ]);
 
         // Verify Http requests were made
-        Http::assertSentCount(4); // 1 X + 1 FB + 2 IG (container + publish)
+        Http::assertSentCount(5); // 1 X + 1 FB + 2 IG (container + publish) + 1 Telegram
 
         // Run the command again. It should pick Business 2 because Business 1 is already published.
         Http::fake([
@@ -110,10 +120,11 @@ class PublishDailyBusinessTest extends TestCase
             'graph.facebook.com/v20.0/test_page_id/feed' => Http::response(['id' => 'fb_456'], 200),
             'graph.facebook.com/v20.0/test_instagram_business_id/media' => Http::response(['id' => 'ig_container_456'], 200),
             'graph.facebook.com/v20.0/test_instagram_business_id/media_publish' => Http::response(['id' => 'ig_456'], 200),
+            'api.telegram.org/bottest_bot_token/sendMessage' => Http::response(['ok' => true], 200),
         ]);
 
         $this->artisan('app:publish-daily-business')
-            ->expectsOutput('Configured platforms: x, facebook, instagram')
+            ->expectsOutput('Configured platforms: x, facebook, instagram, telegram')
             ->expectsOutput('Selected business: Peluquería Estilo (ID: ' . $business2->id . ')')
             ->assertExitCode(0);
 
@@ -126,7 +137,7 @@ class PublishDailyBusinessTest extends TestCase
 
         // Run the command a third time. Only unapproved business left. Should do nothing.
         $this->artisan('app:publish-daily-business')
-            ->expectsOutput('Configured platforms: x, facebook, instagram')
+            ->expectsOutput('Configured platforms: x, facebook, instagram, telegram')
             ->expectsOutput('No new approved businesses to publish.')
             ->assertExitCode(0);
     }
@@ -144,6 +155,7 @@ class PublishDailyBusinessTest extends TestCase
             'graph.facebook.com/v20.0/test_page_id/feed' => Http::response(['id' => 'fb_123'], 200),
             'graph.facebook.com/v20.0/test_instagram_business_id/media' => Http::response(['id' => 'ig_container_123'], 200),
             'graph.facebook.com/v20.0/test_instagram_business_id/media_publish' => Http::response(['id' => 'ig_123'], 200),
+            'api.telegram.org/bottest_bot_token/sendMessage' => Http::response(['ok' => true], 200),
         ]);
 
         $business = Business::create([
@@ -154,7 +166,7 @@ class PublishDailyBusinessTest extends TestCase
         ]);
 
         $this->artisan('app:publish-daily-business')
-            ->expectsOutput('Configured platforms: x, facebook, instagram')
+            ->expectsOutput('Configured platforms: x, facebook, instagram, telegram')
             ->expectsOutput('Selected business: Bar Pepe (ID: ' . $business->id . ')')
             ->expectsOutput('Publishing to x...')
             ->expectsOutput('Failed to publish to x: Unauthorized')
@@ -162,6 +174,8 @@ class PublishDailyBusinessTest extends TestCase
             ->expectsOutput('Successfully published to facebook!')
             ->expectsOutput('Publishing to instagram...')
             ->expectsOutput('Successfully published to instagram!')
+            ->expectsOutput('Publishing to telegram...')
+            ->expectsOutput('Successfully published to telegram!')
             ->assertExitCode(0);
 
         // Verify in DB that X failed and FB succeeded
@@ -181,12 +195,13 @@ class PublishDailyBusinessTest extends TestCase
         // Since it failed on X, running the command again should select the same business,
         // skip Facebook and Instagram (already success), and retry X.
         $this->artisan('app:publish-daily-business')
-            ->expectsOutput('Configured platforms: x, facebook, instagram')
+            ->expectsOutput('Configured platforms: x, facebook, instagram, telegram')
             ->expectsOutput('Selected business: Bar Pepe (ID: ' . $business->id . ')')
             ->expectsOutput('Publishing to x...')
             ->expectsOutput('Successfully published to x!')
             ->expectsOutput('Already successfully published to facebook. Skipping.')
             ->expectsOutput('Already successfully published to instagram. Skipping.')
+            ->expectsOutput('Already successfully published to telegram. Skipping.')
             ->assertExitCode(0);
 
         // Now we should have success for X too

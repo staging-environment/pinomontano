@@ -106,6 +106,8 @@ class PublishDailyBusiness extends Command
                 $result = $this->socialMediaService->postToFacebook($business);
             } elseif ($platform === 'instagram') {
                 $result = $this->socialMediaService->postToInstagram($business);
+            } elseif ($platform === 'telegram') {
+                $result = $this->socialMediaService->postToTelegram($business);
             }
 
             if ($result) {
@@ -149,6 +151,11 @@ class PublishDailyBusiness extends Command
         if (config('services.meta.instagram_business_id') &&
             config('services.meta.page_access_token')) {
             $platforms[] = 'instagram';
+        }
+
+        if (config('services.telegram.bot_token') &&
+            config('services.telegram.chat_id')) {
+            $platforms[] = 'telegram';
         }
 
         return $platforms;
