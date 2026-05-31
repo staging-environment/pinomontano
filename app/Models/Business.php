@@ -49,10 +49,19 @@ class Business extends Model
     }
 
     /**
-     * Accessor for reviews count.
+     * Get reviews count.
      */
     public function getReviewsCountAttribute()
     {
         return $this->reviews()->count();
     }
+
+    /**
+     * Get the social posts for this business.
+     */
+    public function socialPosts()
+    {
+        return $this->hasMany(SocialPost::class);
+    }
 }
+

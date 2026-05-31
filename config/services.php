@@ -35,4 +35,17 @@ return [
         ],
     ],
 
+    'x' => [
+        'consumer_key' => env('X_CONSUMER_KEY'),
+        'consumer_secret' => env('X_CONSUMER_SECRET'),
+        'access_token' => env('X_ACCESS_TOKEN'),
+        'access_token_secret' => env('X_ACCESS_TOKEN_SECRET'),
+    ],
+
+    'meta' => [
+        'page_id' => env('META_PAGE_ID'),
+        'instagram_business_id' => env('META_INSTAGRAM_BUSINESS_ID'),
+        'page_access_token' => env('META_PAGE_ACCESS_TOKEN'),
+    ],
+
 ];
