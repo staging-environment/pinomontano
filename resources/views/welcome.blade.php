@@ -96,10 +96,18 @@
         </div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-100 mb-6">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                Impulsando el comercio de Pino Montano
-            </span>
+            <div class="flex flex-wrap justify-center gap-3 mb-6">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-100">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Impulsando el comercio de Pino Montano
+                </span>
+                <a href="https://t.me/pinomontanomarketplace" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-sky-50 text-sky-700 border border-sky-100 hover:bg-sky-100 transition-colors shadow-sm">
+                    <svg class="w-3.5 h-3.5 fill-current text-[#0088cc]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.35-.49.97-.74 3.79-1.65 6.32-2.73 7.57-3.26 3.6-1.5 4.35-1.76 4.84-1.77.11 0 .35.03.5.16.13.1.17.24.18.34-.01.06-.01.12-.02.18z"/>
+                    </svg>
+                    Canal de Telegram
+                </a>
+            </div>
             <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight max-w-3xl mx-auto leading-[1.1]">
                 Descubre los comercios y servicios de <span class="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 bg-clip-text text-transparent">Pino Montano</span>
             </h1>
@@ -525,9 +533,15 @@
                     <span class="block text-[10px] text-slate-500">© {{ date('Y') }} Todos los derechos reservados.</span>
                 </div>
             </div>
-            <div class="flex gap-6 text-xs font-semibold text-slate-455">
+            <div class="flex gap-6 text-xs font-semibold text-slate-455 flex-wrap justify-center">
                 <a href="#comercios" class="hover:text-white transition-colors">Comercios</a>
                 <a href="{{ route('barrio.history') }}" class="hover:text-white transition-colors">Sobre el Barrio</a>
+                <a href="https://t.me/pinomontanomarketplace" target="_blank" class="hover:text-white transition-colors flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 fill-current text-[#0088cc]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.35-.49.97-.74 3.79-1.65 6.32-2.73 7.57-3.26 3.6-1.5 4.35-1.76 4.84-1.77.11 0 .35.03.5.16.13.1.17.24.18.34-.01.06-.01.12-.02.18z"/>
+                    </svg>
+                    Telegram
+                </a>
                 <a href="mailto:soporte@pinomontano.ddev.site" class="hover:text-white transition-colors">Soporte</a>
             </div>
             <div class="text-xs text-slate-500">
