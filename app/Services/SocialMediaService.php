@@ -25,7 +25,7 @@ class SocialMediaService
         $body = ['text' => $text];
 
         try {
-            $authHeader = $this->getXAuthHeader($url, $method, $body);
+            $authHeader = $this->getXAuthHeader($url, $method);
 
             $response = Http::withHeaders([
                 'Authorization' => $authHeader,
