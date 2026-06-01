@@ -13,15 +13,22 @@ class SocialMediaService
      */
     public function postToX(Business $business): array
     {
-        $url = 'https://api.twitter.com/2/tweets';
-        $method = 'POST';
-
         $text = "¡Nuevo comercio en el Marketplace de Pino Montano! 🥳\n\n"
               . "🛍️ {$business->name}\n"
               . "📌 Categoría: {$business->category}\n"
               . "📝 " . Str::limit($business->description, 100) . "\n\n"
               . "👉 Descubre más: " . route('business.show', $business->slug);
 
+        return $this->postRawToX($text);
+    }
+
+    /**
+     * Publish raw text to X (Twitter).
+     */
+    public function postRawToX(string $text): array
+    {
+        $url = 'https://api.twitter.com/2/tweets';
+        $method = 'POST';
         $body = ['text' => $text];
 
         try {
@@ -47,6 +54,21 @@ class SocialMediaService
      */
     public function postToFacebook(Business $business): array
     {
+        $message = "¡Nuevo comercio en el Marketplace de Pino Montano! 🥳\n\n"
+                 . "🛍️ {$business->name}\n"
+                 . "📌 Categoría: {$business->category}\n\n"
+                 . "{$business->description}\n\n"
+                 . "📍 Dirección: {$business->address}\n"
+                 . ($business->phone ? "📞 Teléfono: {$business->phone}\n" : "");
+
+        return $this->postRawToFacebook($message, route('business.show', $business->slug));
+    }
+
+    /**
+     * Publish raw message on Facebook.
+     */
+    public function postRawToFacebook(string $message, ?string $link = null): array
+    {
         $pageId = config('services.meta.page_id');
         $accessToken = config('services.meta.page_access_token');
 
@@ -56,19 +78,17 @@ class SocialMediaService
 
         $url = "https://graph.facebook.com/v20.0/{$pageId}/feed";
 
-        $message = "¡Nuevo comercio en el Marketplace de Pino Montano! 🥳\n\n"
-                 . "🛍️ {$business->name}\n"
-                 . "📌 Categoría: {$business->category}\n\n"
-                 . "{$business->description}\n\n"
-                 . "📍 Dirección: {$business->address}\n"
-                 . ($business->phone ? "📞 Teléfono: {$business->phone}\n" : "");
+        $body = [
+            'message' => $message,
+            'access_token' => $accessToken,
+        ];
+
+        if ($link) {
+            $body['link'] = $link;
+        }
 
         try {
-            $response = Http::post($url, [
-                'message' => $message,
-                'link' => route('business.show', $business->slug),
-                'access_token' => $accessToken,
-            ]);
+            $response = Http::post($url, $body);
 
             if ($response->successful()) {
                 return ['status' => 'success', 'data' => $response->json()];
@@ -85,13 +105,6 @@ class SocialMediaService
      */
     public function postToInstagram(Business $business): array
     {
-        $instagramId = config('services.meta.instagram_business_id');
-        $accessToken = config('services.meta.page_access_token');
-
-        if (!$instagramId || !$accessToken) {
-            return ['status' => 'failed', 'error' => 'Meta Instagram Business ID or Access Token is not configured.'];
-        }
-
         // Instagram publishing requires a public image URL.
         // We use a beautiful placeholder image representing community marketplace.
         $imageUrl = 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1000&q=80';
@@ -103,6 +116,21 @@ class SocialMediaService
                  . "📍 Dirección: {$business->address}\n"
                  . ($business->phone ? "📞 Teléfono: {$business->phone}\n" : "")
                  . "👉 Visita: " . route('business.show', $business->slug);
+
+        return $this->postRawToInstagram($caption, $imageUrl);
+    }
+
+    /**
+     * Publish raw caption and image on Instagram.
+     */
+    public function postRawToInstagram(string $caption, string $imageUrl): array
+    {
+        $instagramId = config('services.meta.instagram_business_id');
+        $accessToken = config('services.meta.page_access_token');
+
+        if (!$instagramId || !$accessToken) {
+            return ['status' => 'failed', 'error' => 'Meta Instagram Business ID or Access Token is not configured.'];
+        }
 
         try {
             // Step 1: Create media container
@@ -122,6 +150,9 @@ class SocialMediaService
             if (!$creationId) {
                 return ['status' => 'failed', 'error' => 'No creation ID returned.'];
             }
+
+            // Wait for Meta to process the uploaded image (mandatory for Instagram API)
+            sleep(5);
 
             // Step 2: Publish media container
             $publishUrl = "https://graph.facebook.com/v20.0/{$instagramId}/media_publish";
@@ -145,6 +176,22 @@ class SocialMediaService
      */
     public function postToTelegram(Business $business): array
     {
+        $text = "¡Nuevo comercio en el Marketplace de Pino Montano! 🥳\n\n"
+              . "🛍️ *{$business->name}*\n"
+              . "📌 Categoría: {$business->category}\n"
+              . ($business->description ? "📝 " . Str::limit($business->description, 200) . "\n\n" : "\n")
+              . "📍 Dirección: {$business->address}\n"
+              . ($business->phone ? "📞 Teléfono: {$business->phone}\n" : "")
+              . "👉 Descubre más: [Ficha del comercio](" . route('business.show', $business->slug) . ")";
+
+        return $this->postRawToTelegram($text);
+    }
+
+    /**
+     * Publish raw message to Telegram.
+     */
+    public function postRawToTelegram(string $message): array
+    {
         $botToken = config('services.telegram.bot_token');
         $chatId = config('services.telegram.chat_id');
 
@@ -154,18 +201,10 @@ class SocialMediaService
 
         $url = "https://api.telegram.org/bot{$botToken}/sendMessage";
 
-        $text = "¡Nuevo comercio en el Marketplace de Pino Montano! 🥳\n\n"
-              . "🛍️ *{$business->name}*\n"
-              . "📌 Categoría: {$business->category}\n"
-              . ($business->description ? "📝 " . Str::limit($business->description, 200) . "\n\n" : "\n")
-              . "📍 Dirección: {$business->address}\n"
-              . ($business->phone ? "📞 Teléfono: {$business->phone}\n" : "")
-              . "👉 Descubre más: [Ficha del comercio](" . route('business.show', $business->slug) . ")";
-
         try {
             $response = Http::post($url, [
                 'chat_id' => $chatId,
-                'text' => $text,
+                'text' => $message,
                 'parse_mode' => 'Markdown',
                 'disable_web_page_preview' => false,
             ]);

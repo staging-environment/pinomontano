@@ -79,7 +79,66 @@ class PublishDailyBusiness extends Command
         }
 
         if (!$business) {
-            $this->info('No new approved businesses to publish.');
+            $this->info('No new approved businesses to publish. Checking for promotional fallback...');
+
+            $prompts = [
+                "¡Apoya al comercio local de Pino Montano! 🛍️ Descubre todos los negocios del barrio en nuestro Marketplace. ¿Tienes un comercio? ¡Regístrate gratis y llega a más vecinos! 👉 " . config('app.url'),
+                "Hacer barrio es comprar en el barrio. ❤️ Descubre las mejores tiendas, bares y servicios de Pino Montano en un solo lugar. ¿Aún no estás apuntado? Únete hoy gratis: " . config('app.url'),
+                "Encuentra lo que necesitas sin salir de Pino Montano. 📍 Desde talleres hasta fruterías y peluquerías. Si tienes un negocio en el barrio, regístrate gratis aquí: " . config('app.url')
+            ];
+            $promoMessage = $prompts[array_rand($prompts)];
+            $promoPublishedCount = 0;
+
+            foreach ($configuredPlatforms as $platform) {
+                // Check if already published successfully today
+                $alreadyPublishedToday = SocialPost::whereNull('business_id')
+                    ->where('platform', $platform)
+                    ->where('status', 'success')
+                    ->whereDate('created_at', today())
+                    ->exists();
+
+                if ($alreadyPublishedToday) {
+                    $this->info("Promotional post already successfully published to {$platform} today. Skipping.");
+                    continue;
+                }
+
+                $this->info("Publishing promotional post to {$platform}...");
+
+                $result = null;
+                if ($platform === 'x') {
+                    $result = $this->socialMediaService->postRawToX($promoMessage);
+                } elseif ($platform === 'facebook') {
+                    $result = $this->socialMediaService->postRawToFacebook($promoMessage, config('app.url'));
+                } elseif ($platform === 'instagram') {
+                    $imageUrl = 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1000&q=80';
+                    $result = $this->socialMediaService->postRawToInstagram($promoMessage, $imageUrl);
+                } elseif ($platform === 'telegram') {
+                    $result = $this->socialMediaService->postRawToTelegram($promoMessage);
+                }
+
+                if ($result) {
+                    SocialPost::create([
+                        'business_id' => null,
+                        'platform' => $platform,
+                        'status' => $result['status'],
+                        'error_message' => $result['status'] === 'failed' ? ($result['error'] ?? 'Unknown error') : null,
+                    ]);
+
+                    if ($result['status'] === 'success') {
+                        $this->info("Successfully published promotional post to {$platform}!");
+                        $promoPublishedCount++;
+                    } else {
+                        $this->error("Failed to publish promotional post to {$platform}: " . ($result['error'] ?? 'Unknown error'));
+                    }
+                }
+            }
+
+            if ($promoPublishedCount > 0) {
+                $this->info("Promotional fallback completed successfully. Posted to {$promoPublishedCount} platforms.");
+            } else {
+                $this->info("No promotional posts were published (either already published or all failed).");
+            }
+
             return Command::SUCCESS;
         }
 

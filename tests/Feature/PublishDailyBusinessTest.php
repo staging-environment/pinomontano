@@ -135,10 +135,19 @@ class PublishDailyBusinessTest extends TestCase
             'status' => 'success',
         ]);
 
-        // Run the command a third time. Only unapproved business left. Should do nothing.
+        // Run the command a third time. Only unapproved business left. Should trigger promotional fallback.
         $this->artisan('app:publish-daily-business')
             ->expectsOutput('Configured platforms: x, facebook, instagram, telegram')
-            ->expectsOutput('No new approved businesses to publish.')
+            ->expectsOutput('No new approved businesses to publish. Checking for promotional fallback...')
+            ->expectsOutput('Publishing promotional post to x...')
+            ->expectsOutput('Successfully published promotional post to x!')
+            ->expectsOutput('Publishing promotional post to facebook...')
+            ->expectsOutput('Successfully published promotional post to facebook!')
+            ->expectsOutput('Publishing promotional post to instagram...')
+            ->expectsOutput('Successfully published promotional post to instagram!')
+            ->expectsOutput('Publishing promotional post to telegram...')
+            ->expectsOutput('Successfully published promotional post to telegram!')
+            ->expectsOutput('Promotional fallback completed successfully. Posted to 4 platforms.')
             ->assertExitCode(0);
     }
 
@@ -208,6 +217,109 @@ class PublishDailyBusinessTest extends TestCase
         $this->assertDatabaseHas('social_posts', [
             'business_id' => $business->id,
             'platform' => 'x',
+            'status' => 'success',
+        ]);
+    }
+
+    /**
+     * Test command publishes promotional fallback post when there are no approved businesses.
+     */
+    public function test_publish_daily_business_command_publishes_promotional_fallback_when_no_approved_business()
+    {
+        Http::fake([
+            'api.twitter.com/2/tweets' => Http::response(['id' => 'x_promo_123'], 201),
+            'graph.facebook.com/v20.0/test_page_id/feed' => Http::response(['id' => 'fb_promo_123'], 200),
+            'graph.facebook.com/v20.0/test_instagram_business_id/media' => Http::response(['id' => 'ig_container_promo_123'], 200),
+            'graph.facebook.com/v20.0/test_instagram_business_id/media_publish' => Http::response(['id' => 'ig_promo_123'], 200),
+            'api.telegram.org/bottest_bot_token/sendMessage' => Http::response(['ok' => true], 200),
+        ]);
+
+        // Run command
+        $this->artisan('app:publish-daily-business')
+            ->expectsOutput('Configured platforms: x, facebook, instagram, telegram')
+            ->expectsOutput('No new approved businesses to publish. Checking for promotional fallback...')
+            ->expectsOutput('Publishing promotional post to x...')
+            ->expectsOutput('Successfully published promotional post to x!')
+            ->expectsOutput('Publishing promotional post to facebook...')
+            ->expectsOutput('Successfully published promotional post to facebook!')
+            ->expectsOutput('Publishing promotional post to instagram...')
+            ->expectsOutput('Successfully published promotional post to instagram!')
+            ->expectsOutput('Publishing promotional post to telegram...')
+            ->expectsOutput('Successfully published promotional post to telegram!')
+            ->expectsOutput('Promotional fallback completed successfully. Posted to 4 platforms.')
+            ->assertExitCode(0);
+
+        // Verify in database that business_id is null for these promo posts
+        $this->assertDatabaseHas('social_posts', [
+            'business_id' => null,
+            'platform' => 'x',
+            'status' => 'success',
+        ]);
+        $this->assertDatabaseHas('social_posts', [
+            'business_id' => null,
+            'platform' => 'facebook',
+            'status' => 'success',
+        ]);
+        $this->assertDatabaseHas('social_posts', [
+            'business_id' => null,
+            'platform' => 'instagram',
+            'status' => 'success',
+        ]);
+        $this->assertDatabaseHas('social_posts', [
+            'business_id' => null,
+            'platform' => 'telegram',
+            'status' => 'success',
+        ]);
+    }
+
+    /**
+     * Test command skips promotional fallback if already published today.
+     */
+    public function test_publish_daily_business_command_skips_promotional_fallback_if_already_published_today()
+    {
+        // Seed a promo post already published today
+        SocialPost::create([
+            'business_id' => null,
+            'platform' => 'x',
+            'status' => 'success',
+            'created_at' => now(),
+        ]);
+
+        // Seed a failed promo post for facebook to verify it retries the failed ones
+        SocialPost::create([
+            'business_id' => null,
+            'platform' => 'facebook',
+            'status' => 'failed',
+            'error_message' => 'API Error',
+            'created_at' => now(),
+        ]);
+
+        Http::fake([
+            'graph.facebook.com/v20.0/test_page_id/feed' => Http::response(['id' => 'fb_retry_promo_123'], 200),
+            'graph.facebook.com/v20.0/test_instagram_business_id/media' => Http::response(['id' => 'ig_container_promo_123'], 200),
+            'graph.facebook.com/v20.0/test_instagram_business_id/media_publish' => Http::response(['id' => 'ig_promo_123'], 200),
+            'api.telegram.org/bottest_bot_token/sendMessage' => Http::response(['ok' => true], 200),
+        ]);
+
+        $this->artisan('app:publish-daily-business')
+            ->expectsOutput('Configured platforms: x, facebook, instagram, telegram')
+            ->expectsOutput('No new approved businesses to publish. Checking for promotional fallback...')
+            ->expectsOutput('Promotional post already successfully published to x today. Skipping.')
+            ->expectsOutput('Publishing promotional post to facebook...')
+            ->expectsOutput('Successfully published promotional post to facebook!')
+            ->expectsOutput('Publishing promotional post to instagram...')
+            ->expectsOutput('Successfully published promotional post to instagram!')
+            ->expectsOutput('Publishing promotional post to telegram...')
+            ->expectsOutput('Successfully published promotional post to telegram!')
+            ->assertExitCode(0);
+
+        // Verify X was not posted again (should only have the initial one)
+        $this->assertEquals(1, SocialPost::whereNull('business_id')->where('platform', 'x')->count());
+
+        // Verify facebook now has a success record too
+        $this->assertDatabaseHas('social_posts', [
+            'business_id' => null,
+            'platform' => 'facebook',
             'status' => 'success',
         ]);
     }
