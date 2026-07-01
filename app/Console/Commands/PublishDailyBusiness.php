@@ -61,16 +61,28 @@ class PublishDailyBusiness extends Command
                 return Command::FAILURE;
             }
         } else {
-            // Find the oldest approved business that is missing successful posts for at least one configured platform
+            // Find the oldest approved business that is missing successful posts for at least one configured platform,
+            // but has not exceeded the max retry limit of 3 failed attempts for that platform.
             $business = Business::where('is_approved', true)
                 ->where(function ($query) use ($configuredPlatforms) {
                     foreach ($configuredPlatforms as $platform) {
-                        $query->orWhereNotExists(function ($subQuery) use ($platform) {
-                            $subQuery->selectRaw(1)
-                                ->from('social_posts')
-                                ->whereColumn('social_posts.business_id', 'businesses.id')
-                                ->where('platform', $platform)
-                                ->where('status', 'success');
+                        $query->orWhere(function ($subQuery) use ($platform) {
+                            // No successful post for this platform
+                            $subQuery->whereNotExists(function ($q) use ($platform) {
+                                $q->selectRaw(1)
+                                    ->from('social_posts')
+                                    ->whereColumn('social_posts.business_id', 'businesses.id')
+                                    ->where('platform', $platform)
+                                    ->where('status', 'success');
+                            })
+                            // AND fewer than 3 failed attempts for this platform
+                            ->where(function ($q) use ($platform) {
+                                $q->selectRaw('count(*)')
+                                    ->from('social_posts')
+                                    ->whereColumn('social_posts.business_id', 'businesses.id')
+                                    ->where('platform', $platform)
+                                    ->where('status', 'failed');
+                            }, '<', 3);
                         });
                     }
                 })

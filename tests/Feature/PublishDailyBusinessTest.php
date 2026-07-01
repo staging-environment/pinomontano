@@ -323,4 +323,71 @@ class PublishDailyBusinessTest extends TestCase
             'status' => 'success',
         ]);
     }
+
+    /**
+     * Test command moves on to the next business after max failures on a platform.
+     */
+    public function test_publish_daily_business_command_moves_on_after_max_failures()
+    {
+        // Business 1: Oldest, approved
+        $business1 = Business::create([
+            'name' => 'Bar Pepe',
+            'slug' => 'bar-pepe',
+            'category' => 'Restauración',
+            'is_approved' => true,
+            'created_at' => now()->subDays(2),
+        ]);
+
+        // Business 2: Newer, approved
+        $business2 = Business::create([
+            'name' => 'Peluquería Estilo',
+            'slug' => 'peluqueria-estilo',
+            'category' => 'Peluquerías',
+            'is_approved' => true,
+            'created_at' => now()->subDay(),
+        ]);
+
+        // We seed 3 failed attempts on X for Business 1
+        for ($i = 0; $i < 3; $i++) {
+            SocialPost::create([
+                'business_id' => $business1->id,
+                'platform' => 'x',
+                'status' => 'failed',
+                'error_message' => 'API Error',
+            ]);
+        }
+
+        // We seed success for Facebook, Instagram, and Telegram for Business 1
+        SocialPost::create([
+            'business_id' => $business1->id,
+            'platform' => 'facebook',
+            'status' => 'success',
+        ]);
+        SocialPost::create([
+            'business_id' => $business1->id,
+            'platform' => 'instagram',
+            'status' => 'success',
+        ]);
+        SocialPost::create([
+            'business_id' => $business1->id,
+            'platform' => 'telegram',
+            'status' => 'success',
+        ]);
+
+        // Now, Business 1 is technically missing successful X post, but it reached 3 failures on X.
+        // Therefore, it should be ignored and the command should pick Business 2.
+
+        Http::fake([
+            'api.twitter.com/2/tweets' => Http::response(['id' => 'x_123'], 201),
+            'graph.facebook.com/v20.0/test_page_id/feed' => Http::response(['id' => 'fb_123'], 200),
+            'graph.facebook.com/v20.0/test_instagram_business_id/media' => Http::response(['id' => 'ig_container_123'], 200),
+            'graph.facebook.com/v20.0/test_instagram_business_id/media_publish' => Http::response(['id' => 'ig_123'], 200),
+            'api.telegram.org/bottest_bot_token/sendMessage' => Http::response(['ok' => true], 200),
+        ]);
+
+        $this->artisan('app:publish-daily-business')
+            ->expectsOutput('Configured platforms: x, facebook, instagram, telegram')
+            ->expectsOutput('Selected business: Peluquería Estilo (ID: ' . $business2->id . ')')
+            ->assertExitCode(0);
+    }
 }
