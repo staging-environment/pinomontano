@@ -94,11 +94,42 @@ class PublishDailyBusiness extends Command
             $this->info('No new approved businesses to publish. Checking for promotional fallback...');
 
             $prompts = [
-                "¡Apoya al comercio local de Pino Montano! 🛍️ Descubre todos los negocios del barrio en nuestro Marketplace. ¿Tienes un comercio? ¡Regístrate gratis y llega a más vecinos! 👉 " . config('app.url'),
-                "Hacer barrio es comprar en el barrio. ❤️ Descubre las mejores tiendas, bares y servicios de Pino Montano en un solo lugar. ¿Aún no estás apuntado? Únete hoy gratis: " . config('app.url'),
-                "Encuentra lo que necesitas sin salir de Pino Montano. 📍 Desde talleres hasta fruterías y peluquerías. Si tienes un negocio en el barrio, regístrate gratis aquí: " . config('app.url')
+                [
+                    'message' => "¿Sabías que el Cortijo de Pino Montano fue cuna de la Generación del 27? 🎭 Fincas emblemáticas de nuestro barrio acogieron tertulias e inspiraron a poetas como Federico García Lorca y Rafael Alberti gracias al torero Ignacio Sánchez Mejías. ¡Descubre la historia completa de nuestras raíces! 👉",
+                    'link' => route('barrio.history')
+                ],
+                [
+                    'message' => "¿Sabías que el Parque de Miraflores fue salvado por los propios vecinos? 🌳 En los años 80, este espacio corría el riesgo de convertirse en un enorme vertedero de escombros. Gracias a la unión del barrio y el Comité Pro-Parque Educativo, hoy es el pulmón verde del norte de Sevilla. Conoce más curiosidades aquí 👉",
+                    'link' => route('barrio.history')
+                ],
+                [
+                    'message' => "El alma de Pino Montano se forjó en las intensas luchas vecinales de los años 70 y 80. 🏗️ Al recibir viviendas en un barrio sin asfaltar, sin autobuses ni colegios, los vecinos se unieron para conquistar cada derecho básico. ¡Hacer barrio es recordar de dónde venimos! Lee la historia aquí 👉",
+                    'link' => route('barrio.history')
+                ],
+                [
+                    'message' => "¿Sabías que las tierras de Pino Montano eran el granero de la Hispalis romana? 🌾 Las excavaciones arqueológicas demuestran la existencia de villas rústicas y prensas de aceite de oliva en nuestra vega desde el siglo I a.C. ¡Un legado milenario de trabajo agrícola! Descubre más 👉",
+                    'link' => route('barrio.origins')
+                ],
+                [
+                    'message' => "Durante el periodo andalusí y almohade (siglos XII-XIII), la zona norte de Sevilla albergaba una rica red de huertas protegidas por torres de vigilancia, como la del Cortijo de Miraflores. 🗼 ¡El agua y la agricultura revolucionaron nuestra tierra! Conoce la historia de nuestros orígenes 👉",
+                    'link' => route('barrio.origins')
+                ],
+                [
+                    'message' => "¡Apoya al comercio local de Pino Montano! 🛍️ Descubre todos los negocios del barrio en nuestro Marketplace. ¿Tienes un comercio? ¡Regístrate gratis y llega a más vecinos! 👉",
+                    'link' => config('app.url')
+                ],
+                [
+                    'message' => "Hacer barrio es comprar en el barrio. ❤️ Descubre las mejores tiendas, bares y servicios de Pino Montano en un solo lugar. ¿Aún no estás apuntado? Únete hoy gratis 👉",
+                    'link' => config('app.url')
+                ],
+                [
+                    'message' => "Encuentra lo que necesitas sin salir de Pino Montano. 📍 Desde talleres hasta fruterías y peluquerías. Si tienes un negocio en el barrio, regístrate gratis aquí 👉",
+                    'link' => config('app.url')
+                ]
             ];
-            $promoMessage = $prompts[array_rand($prompts)];
+            $selectedPrompt = $prompts[array_rand($prompts)];
+            $promoMessage = $selectedPrompt['message'] . ' ' . $selectedPrompt['link'];
+            $promoLink = $selectedPrompt['link'];
             $promoPublishedCount = 0;
 
             foreach ($configuredPlatforms as $platform) {
@@ -120,7 +151,7 @@ class PublishDailyBusiness extends Command
                 if ($platform === 'x') {
                     $result = $this->socialMediaService->postRawToX($promoMessage);
                 } elseif ($platform === 'facebook') {
-                    $result = $this->socialMediaService->postRawToFacebook($promoMessage, config('app.url'));
+                    $result = $this->socialMediaService->postRawToFacebook($promoMessage, $promoLink);
                 } elseif ($platform === 'instagram') {
                     $imageUrl = 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1000&q=80';
                     $result = $this->socialMediaService->postRawToInstagram($promoMessage, $imageUrl);
