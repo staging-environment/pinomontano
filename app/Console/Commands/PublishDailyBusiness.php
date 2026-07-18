@@ -143,6 +143,10 @@ class PublishDailyBusiness extends Command
                     'link' => route('barrio.history')
                 ],
                 [
+                    'message' => "¿Sabías cómo se proyecta el futuro de Pino Montano? 🚇 Desde la llegada de la Línea 3 del Metro hasta la modernización de los espacios comerciales, nuestro barrio no para de crecer. ¡Conoce hacia dónde vamos! 👉",
+                    'link' => route('barrio.future')
+                ],
+                [
                     'message' => "¿Sabías que el Parque de Miraflores fue salvado por los propios vecinos? 🌳 En los años 80, este espacio corría el riesgo de convertirse en un enorme vertedero de escombros. Gracias a la unión del barrio y el Comité Pro-Parque Educativo, hoy es el pulmón verde del norte de Sevilla. Conoce más curiosidades aquí 👉",
                     'link' => route('barrio.history')
                 ],
