@@ -89,6 +89,18 @@
                 <p class="mt-3 text-slate-605 text-sm sm:text-base leading-relaxed">
                     La finca perteneció al mítico torero **Joselito "El Gallo"** y posteriormente al polifacético **Ignacio Sánchez Mejías**. En este cortijo se reunían intelectuales y poetas de la **Generación del 27** como Federico García Lorca, Rafael Alberti, Gerardo Diego y Jorge Guillén, buscando inspiración en la paz y el duende del campo sevillano.
                 </p>
+
+                <!-- Origin of the Name Highlight Card -->
+                <div class="mt-6 p-6 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50/30 border border-emerald-100 text-slate-700 shadow-sm relative overflow-hidden group hover:shadow-md transition-all duration-300">
+                    <div class="absolute -right-6 -bottom-6 text-emerald-100/40 text-7xl font-bold select-none group-hover:scale-110 transition-transform duration-300">🌲</div>
+                    <h3 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                        <span class="flex items-center justify-center w-6 h-6 rounded-lg bg-emerald-500 text-white text-xs shrink-0">i</span>
+                        ¿De dónde viene el nombre de "Pino Montano"?
+                    </h3>
+                    <p class="mt-3 text-slate-600 text-xs sm:text-sm leading-relaxed relative z-10">
+                        El nombre de nuestro barrio procede directamente del histórico <strong>Cortijo de Pino Montano</strong>. Esta finca fue bautizada combinando dos rasgos que la identificaban: la presencia de distinguidos <strong>pinos</strong> plantados en sus campos y el apellido de su propietario original, el señor <strong>Montano</strong>. Al urbanizarse el barrio a partir de 1975, los vecinos adoptaron este nombre tradicional para designar lo que hoy es el corazón del norte de Sevilla.
+                    </p>
+                </div>
             </div>
             <div class="order-1 lg:order-2">
                 <div class="rounded-3xl overflow-hidden shadow-xl border border-slate-200/60 bg-slate-100 aspect-video">

@@ -14,7 +14,7 @@ class PublishDailyBusiness extends Command
      *
      * @var string
      */
-    protected $signature = 'app:publish-daily-business {--business-id= : Publish a specific business by ID for testing}';
+    protected $signature = 'app:publish-daily-business {--business-id= : Publish a specific business by ID for testing} {--name-origin : Publish the history of the name "Pino Montano" instead of a business}';
 
     /**
      * The console command description.
@@ -50,6 +50,46 @@ class PublishDailyBusiness extends Command
         }
 
         $this->info('Configured platforms: ' . implode(', ', $configuredPlatforms));
+
+        if ($this->option('name-origin')) {
+            $this->info('Publishing name origin story to configured platforms...');
+            $message = "¿Sabías de dónde viene el nombre de nuestro barrio \"Pino Montano\"? 🌲 Su origen se debe a los pinos plantados en la antigua finca y al apellido de su dueño original, el señor Montano. ¡Conoce toda la historia de nuestro barrio! 👉 " . route('barrio.history');
+            $link = route('barrio.history');
+            $publishedCount = 0;
+
+            foreach ($configuredPlatforms as $platform) {
+                $this->info("Publishing to {$platform}...");
+                $result = null;
+                if ($platform === 'x') {
+                    $result = $this->socialMediaService->postRawToX($message);
+                } elseif ($platform === 'facebook') {
+                    $result = $this->socialMediaService->postRawToFacebook($message, $link);
+                } elseif ($platform === 'instagram') {
+                    $imageUrl = 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1000&q=80';
+                    $result = $this->socialMediaService->postRawToInstagram($message, $imageUrl);
+                } elseif ($platform === 'telegram') {
+                    $result = $this->socialMediaService->postRawToTelegram($message);
+                }
+
+                if ($result) {
+                    SocialPost::create([
+                        'business_id' => null,
+                        'platform' => $platform,
+                        'status' => $result['status'],
+                        'error_message' => $result['status'] === 'failed' ? ($result['error'] ?? 'Unknown error') : null,
+                    ]);
+
+                    if ($result['status'] === 'success') {
+                        $this->info("Successfully published to {$platform}!");
+                        $publishedCount++;
+                    } else {
+                        $this->error("Failed to publish to {$platform}: " . ($result['error'] ?? 'Unknown error'));
+                    }
+                }
+            }
+
+            return $publishedCount > 0 ? Command::SUCCESS : Command::FAILURE;
+        }
 
         $businessId = $this->option('business-id');
         $business = null;
@@ -94,6 +134,10 @@ class PublishDailyBusiness extends Command
             $this->info('No new approved businesses to publish. Checking for promotional fallback...');
 
             $prompts = [
+                [
+                    'message' => "¿Sabías de dónde viene el nombre de nuestro barrio \"Pino Montano\"? 🌲 Su origen se debe a los pinos plantados en la antigua finca y al apellido de su dueño original, el señor Montano. ¡Conoce toda la historia de nuestro barrio! 👉",
+                    'link' => route('barrio.history')
+                ],
                 [
                     'message' => "¿Sabías que el Cortijo de Pino Montano fue cuna de la Generación del 27? 🎭 Fincas emblemáticas de nuestro barrio acogieron tertulias e inspiraron a poetas como Federico García Lorca y Rafael Alberti gracias al torero Ignacio Sánchez Mejías. ¡Descubre la historia completa de nuestras raíces! 👉",
                     'link' => route('barrio.history')

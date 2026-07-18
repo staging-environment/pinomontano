@@ -390,4 +390,53 @@ class PublishDailyBusinessTest extends TestCase
             ->expectsOutput('Selected business: Peluquería Estilo (ID: ' . $business2->id . ')')
             ->assertExitCode(0);
     }
+
+    /**
+     * Test the --name-origin option publishes the name origin story.
+     */
+    public function test_publish_daily_business_command_publishes_name_origin_option()
+    {
+        Http::fake([
+            'api.twitter.com/2/tweets' => Http::response(['id' => 'x_123'], 201),
+            'graph.facebook.com/v20.0/test_page_id/feed' => Http::response(['id' => 'fb_123'], 200),
+            'graph.facebook.com/v20.0/test_instagram_business_id/media' => Http::response(['id' => 'ig_container_123'], 200),
+            'graph.facebook.com/v20.0/test_instagram_business_id/media_publish' => Http::response(['id' => 'ig_123'], 200),
+            'api.telegram.org/bottest_bot_token/sendMessage' => Http::response(['ok' => true], 200),
+        ]);
+
+        $this->artisan('app:publish-daily-business --name-origin')
+            ->expectsOutput('Configured platforms: x, facebook, instagram, telegram')
+            ->expectsOutput('Publishing name origin story to configured platforms...')
+            ->expectsOutput('Publishing to x...')
+            ->expectsOutput('Successfully published to x!')
+            ->expectsOutput('Publishing to facebook...')
+            ->expectsOutput('Successfully published to facebook!')
+            ->expectsOutput('Publishing to instagram...')
+            ->expectsOutput('Successfully published to instagram!')
+            ->expectsOutput('Publishing to telegram...')
+            ->expectsOutput('Successfully published to telegram!')
+            ->assertExitCode(0);
+
+        // Verify database records are created with business_id as null
+        $this->assertDatabaseHas('social_posts', [
+            'business_id' => null,
+            'platform' => 'x',
+            'status' => 'success',
+        ]);
+        $this->assertDatabaseHas('social_posts', [
+            'business_id' => null,
+            'platform' => 'facebook',
+            'status' => 'success',
+        ]);
+        $this->assertDatabaseHas('social_posts', [
+            'business_id' => null,
+            'platform' => 'instagram',
+            'status' => 'success',
+        ]);
+        $this->assertDatabaseHas('social_posts', [
+            'business_id' => null,
+            'platform' => 'telegram',
+            'status' => 'success',
+        ]);
+    }
 }
