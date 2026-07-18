@@ -139,9 +139,14 @@
                         </svg>
                         <input type="text" name="search" value="{{ $search }}" placeholder="¿Qué negocio estás buscando?" class="w-full pl-12 pr-4 py-3 bg-transparent text-slate-800 placeholder-slate-400 focus:outline-none text-base">
                     </div>
-                    <button type="submit" class="px-8 py-3.5 bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-bold rounded-xl hover:from-emerald-500 hover:to-teal-450 transition-all shadow-md hover:shadow-lg shadow-emerald-500/10 active:scale-98 cursor-pointer">
-                        Buscar Negocios
-                    </button>
+                    <div class="flex flex-col sm:flex-row gap-2 shrink-0">
+                        <button type="submit" class="px-8 py-3.5 bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-bold rounded-xl hover:from-emerald-500 hover:to-teal-450 transition-all shadow-md hover:shadow-lg shadow-emerald-500/10 active:scale-98 cursor-pointer">
+                            Buscar Negocios
+                        </button>
+                        <a href="{{ route('business.register') }}" class="inline-flex items-center justify-center px-6 py-3.5 bg-slate-900 text-white font-bold rounded-xl hover:bg-emerald-650 transition-all shadow-md hover:shadow-lg hover:shadow-emerald-500/20 active:scale-98 whitespace-nowrap">
+                            Sumar mi Comercio
+                        </a>
+                    </div>
                 </form>
             </div>
 
