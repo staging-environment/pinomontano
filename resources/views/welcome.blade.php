@@ -151,23 +151,35 @@
             </div>
 
             <!-- Categories Filter -->
-            <div id="comercios" class="flex flex-col md:flex-row md:items-center justify-between gap-6 mt-16 border-t border-slate-200/60 pt-10 text-left scroll-mt-24">
-                <div>
-                    <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Directorio de Negocios</h2>
-                    <p class="text-sm text-slate-500 mt-1">Explora los comercios según tu necesidad</p>
+            <div id="comercios" class="mt-16 border-t border-slate-200/60 pt-10 text-left scroll-mt-24">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Directorio de Negocios</h2>
+                        <p class="text-sm text-slate-500 mt-1">Explora los comercios según tu necesidad</p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2">
+                        <a href="{{ request()->fullUrlWithQuery(['category' => null, 'search' => request('search')]) }}#comercios" 
+                           class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-205 {{ !$category ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/15' : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50' }}">
+                            Todos
+                        </a>
+                        @foreach($categories as $cat)
+                            <a href="{{ request()->fullUrlWithQuery(['category' => $cat, 'search' => request('search')]) }}#comercios" 
+                               class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-205 {{ $category === $cat ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/15' : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50' }}">
+                                {{ $cat }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
 
-                <div class="flex flex-wrap gap-2">
-                    <a href="{{ request()->fullUrlWithQuery(['category' => null, 'search' => request('search')]) }}#comercios" 
-                       class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-205 {{ !$category ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/15' : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50' }}">
-                        Todos
-                    </a>
-                    @foreach($categories as $cat)
-                        <a href="{{ request()->fullUrlWithQuery(['category' => $cat, 'search' => request('search')]) }}#comercios" 
-                           class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-205 {{ $category === $cat ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/15' : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50' }}">
-                            {{ $cat }}
-                        </a>
-                    @endforeach
+                <!-- Live Search Input -->
+                <div class="mt-6 max-w-md">
+                    <div class="relative">
+                        <svg class="absolute left-4 top-3.5 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <input type="text" id="name-filter" placeholder="Escribe el nombre de un negocio para buscar..." class="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-sm transition-all shadow-sm placeholder-slate-400 text-slate-800">
+                    </div>
                 </div>
             </div>
         </div>
@@ -198,14 +210,6 @@
                 <div class="flex items-center gap-2">
                     <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></div>
                     <h3 class="font-extrabold text-slate-900 tracking-tight text-sm sm:text-base">Mapa de Comercios en Pino Montano</h3>
-                </div>
-                
-                <!-- Client-side Name Filter -->
-                <div class="relative w-full sm:w-72">
-                    <svg class="absolute left-3.5 top-3 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                    <input type="text" id="name-filter" placeholder="Filtrar por nombre..." class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-xs transition-all placeholder-slate-400 text-slate-800">
                 </div>
             </div>
             <div id="map" class="w-full h-[450px] rounded-2xl border border-slate-100"></div>
