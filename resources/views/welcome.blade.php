@@ -59,9 +59,7 @@
     <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-slate-100 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <a href="/" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
-                    PM
-                </div>
+                <img src="/favicon.ico" alt="Pino Montano Logo" class="w-10 h-10 rounded-xl shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform object-contain">
                 <div>
                     <span class="font-extrabold text-xl tracking-tight bg-gradient-to-r from-emerald-700 to-teal-600 bg-clip-text text-transparent">Pino Montano</span>
                     <span class="block text-xs font-semibold text-slate-400 uppercase tracking-widest -mt-1">Marketplace</span>
@@ -538,9 +536,7 @@
     <footer class="mt-auto bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-bold text-base">
-                    PM
-                </div>
+                <img src="/favicon.ico" alt="Pino Montano Logo" class="w-8 h-8 rounded-lg object-contain">
                 <div class="text-left">
                     <span class="font-bold text-white text-sm">Marketplace Pino Montano</span>
                     <span class="block text-[10px] text-slate-500">© {{ date('Y') }} Todos los derechos reservados.</span>
