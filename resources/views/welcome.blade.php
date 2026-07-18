@@ -446,7 +446,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-slate-900 text-sm">Correo Electrónico</h4>
-                                <a href="mailto:soporte@pinomontano.ddev.site" class="text-xs text-emerald-600 hover:text-emerald-700 font-semibold transition-colors mt-0.5 block">soporte@pinomontano.ddev.site</a>
+                                <a href="mailto:info@pinomontano.es" class="text-xs text-emerald-600 hover:text-emerald-700 font-semibold transition-colors mt-0.5 block">info@pinomontano.es</a>
                             </div>
                         </div>
 
@@ -576,7 +576,7 @@
                     </svg>
                     Instagram
                 </a>
-                <a href="mailto:soporte@pinomontano.ddev.site" class="hover:text-white transition-colors">Soporte</a>
+                <a href="mailto:info@pinomontano.es" class="hover:text-white transition-colors">Soporte</a>
             </div>
             <div class="text-xs text-slate-500">
                 Hecho con <span class="text-rose-500">♥</span> en Pino Montano, Sevilla.

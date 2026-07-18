@@ -178,7 +178,7 @@
             <div class="flex gap-6 text-xs font-semibold text-slate-455">
                 <a href="/#comercios" class="hover:text-white transition-colors">Comercios</a>
                 <a href="/historia" class="hover:text-white transition-colors">Sobre el Barrio</a>
-                <a href="mailto:soporte@pinomontano.ddev.site" class="hover:text-white transition-colors">Soporte</a>
+                <a href="mailto:info@pinomontano.es" class="hover:text-white transition-colors">Soporte</a>
             </div>
             <div class="text-xs text-slate-500">
                 Hecho con <span class="text-rose-500">♥</span> en Pino Montano, Sevilla.
