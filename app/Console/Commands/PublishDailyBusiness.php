@@ -53,7 +53,7 @@ class PublishDailyBusiness extends Command
 
         if ($this->option('name-origin')) {
             $this->info('Publishing name origin story to configured platforms...');
-            $message = "¿Sabías de dónde viene el nombre de nuestro barrio \"Pino Montano\"? 🌲 Su origen se debe a los pinos plantados en la antigua finca y al apellido de su dueño original, el señor Montano. ¡Conoce toda la historia de nuestro barrio! 👉 " . route('barrio.history');
+            $message = "¿Sabías de dónde viene el nombre de \"Pino Montano\"? 🌲 A finales del s. XIX, el hacendado Sr. Montano plantó pinos en su finca para dar sombra a sus jornaleros. Con el tiempo se conoció como \"los pinos de Montano\", dando origen al Cortijo y al posterior barrio obrero. ¡Conoce toda la historia! 👉 " . route('barrio.history');
             $link = route('barrio.history');
             $publishedCount = 0;
 
@@ -135,7 +135,7 @@ class PublishDailyBusiness extends Command
 
             $prompts = [
                 [
-                    'message' => "¿Sabías de dónde viene el nombre de nuestro barrio \"Pino Montano\"? 🌲 Su origen se debe a los pinos plantados en la antigua finca y al apellido de su dueño original, el señor Montano. ¡Conoce toda la historia de nuestro barrio! 👉",
+                    'message' => "¿Sabías de dónde viene el nombre de nuestro barrio \"Pino Montano\"? 🌲 El hacendado Sr. Montano plantó pinos en su finca para dar sombra a sus jornaleros, dando origen al nombre del cortijo y del posterior barrio obrero. ¡Descubre la historia completa! 👉",
                     'link' => route('barrio.history')
                 ],
                 [

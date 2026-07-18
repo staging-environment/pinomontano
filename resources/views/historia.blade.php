@@ -98,7 +98,7 @@
                         ¿De dónde viene el nombre de "Pino Montano"?
                     </h3>
                     <p class="mt-3 text-slate-600 text-xs sm:text-sm leading-relaxed relative z-10">
-                        El nombre de nuestro barrio procede directamente del histórico <strong>Cortijo de Pino Montano</strong>. Esta finca fue bautizada combinando dos rasgos que la identificaban: la presencia de distinguidos <strong>pinos</strong> plantados en sus campos y el apellido de su propietario original, el señor <strong>Montano</strong>. Al urbanizarse el barrio a partir de 1975, los vecinos adoptaron este nombre tradicional para designar lo que hoy es el corazón del norte de Sevilla.
+                        El nombre de nuestro barrio procede directamente del histórico <strong>Cortijo de Pino Montano</strong>. A finales del siglo XIX, estas tierras agrícolas pertenecían a un hacendado de apellido <strong>Montano</strong>. Para delimitar su propiedad y dar sombra a sus trabajadores y ganado bajo el sol sevillano, el señor Montano plantó una gran cantidad de <strong>pinos</strong> a lo largo de los límites y caminos de la finca. Con el tiempo, los lugareños empezaron a referirse al lugar como «el cortijo de los pinos de Montano», consolidándose como el <strong>Cortijo de Pino Montano</strong> antes de ser adquirido en 1914 por la familia del torero <strong>Joselito "El Gallo"</strong> y posteriormente heredado por su cuñado <strong>Ignacio Sánchez Mejías</strong>. Al urbanizarse la zona a mediados de la década de 1970, la nueva barriada obrera adoptó orgullosamente este nombre tradicional.
                     </p>
                 </div>
             </div>
@@ -112,11 +112,13 @@
         <!-- Chapter 2: The Birth -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-                <div class="bg-gradient-to-tr from-emerald-600 to-teal-500 rounded-3xl aspect-video flex items-center justify-center p-8 text-white shadow-xl">
-                    <div class="text-center">
-                        <span class="text-5xl">🏗️</span>
-                        <h4 class="font-extrabold text-lg mt-4">1975</h4>
-                        <p class="text-xs text-emerald-100 mt-2">Entrega de las primeras llaves de viviendas a familias trabajadoras.</p>
+                <div class="rounded-3xl overflow-hidden shadow-xl border border-slate-200/60 bg-slate-100 aspect-video group relative">
+                    <img src="/images/estampa_barrio.png" alt="Estampa histórica de Pino Montano" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/10 to-transparent flex items-end p-6">
+                        <div>
+                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500 text-white mb-2 shadow-md shadow-emerald-500/20">AÑO 1975</span>
+                            <p class="text-white text-xs sm:text-sm font-medium">Entrega de las primeras llaves de viviendas a familias trabajadoras en el nuevo barrio.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,9 +146,10 @@
                     Mediante manifestaciones históricas, encierros pacíficos y cortes de carretera, el vecindario fue conquistando cada derecho: el tendido eléctrico definitivo, el agua potable regular, las primeras líneas de autobuses (como la emblemática **Línea 12** de TUSSAM) y los primeros colegios públicos para sus hijos. Pino Montano se autoconstruyó gracias al sudor y la unión de su gente.
                 </p>
             </div>
-            <div class="order-1 lg:order-2">
-                <div class="bg-slate-900 text-white rounded-3xl p-8 shadow-xl border border-slate-800 flex flex-col justify-center h-full min-h-[250px]">
-                    <span class="text-xs font-bold text-emerald-450 uppercase tracking-widest">LOGROS HISTÓRICOS</span>
+            <div class="order-1 lg:order-2 space-y-6">
+                <!-- Logros Históricos -->
+                <div class="bg-slate-900 text-white rounded-3xl p-8 shadow-xl border border-slate-800 flex flex-col justify-center">
+                    <span class="text-xs font-bold text-emerald-450 uppercase tracking-widest">LOGROS VECINALES HISTÓRICOS</span>
                     <ul class="mt-6 space-y-4 text-sm">
                         <li class="flex items-center gap-3">
                             <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs shrink-0">✓</span>
@@ -161,6 +164,10 @@
                             <span>Construcción de colegios e infraestructuras sanitarias.</span>
                         </li>
                     </ul>
+                </div>
+                <!-- Imagen de Apoyo -->
+                <div class="rounded-3xl overflow-hidden shadow-lg border border-slate-200/60 aspect-[21/9] group">
+                    <img src="/images/impulso_comercial.png" alt="Impulso comercial y vida de barrio" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </div>
             </div>
         </section>
