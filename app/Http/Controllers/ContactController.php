@@ -29,6 +29,7 @@ class ContactController extends Controller
         ContactMessage::create($validated);
 
         try {
+            // 1. Notificación al administrador
             \Illuminate\Support\Facades\Mail::raw(
                 "Nuevo mensaje de contacto en el Marketplace de Pino Montano:\n\n" .
                 "Nombre: " . $validated['name'] . "\n" .
@@ -36,15 +37,37 @@ class ContactController extends Controller
                 "Asunto: " . ($validated['subject'] ?? 'Sin asunto') . "\n\n" .
                 "Mensaje:\n" . $validated['message'],
                 function ($message) use ($validated) {
-                    $message->to('jarodriguezbonilla@gmail.com')
+                    $message->from('info@pinomontano.es', 'Marketplace Pino Montano')
+                            ->to('jarodriguezbonilla@gmail.com')
                             ->subject('Nuevo mensaje de contacto: ' . ($validated['subject'] ?? 'General'))
                             ->replyTo($validated['email'], $validated['name']);
                 }
             );
         } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error('Error al enviar correo de contacto: ' . $e->getMessage());
+            \Illuminate\Support\Facades\Log::error('Error al enviar correo de contacto (admin): ' . $e->getMessage());
         }
 
-        return back()->with('contact_success', '¡Gracias por contactar con nosotros! Hemos recibido tu mensaje correctamente y nos pondremos en contacto contigo lo antes posible.');
+        try {
+            // 2. Auto-respuesta al visitante
+            \Illuminate\Support\Facades\Mail::raw(
+                "Hola " . $validated['name'] . ",\n\n" .
+                "Hemos recibido tu mensaje correctamente en el Marketplace de Pino Montano. Nuestro equipo revisará tu consulta y te responderá lo antes posible.\n\n" .
+                "Copia de tu mensaje:\n" .
+                "----------------------------------------\n" .
+                $validated['message'] . "\n" .
+                "----------------------------------------\n\n" .
+                "Un saludo,\n" .
+                "El equipo de Pino Montano.",
+                function ($message) use ($validated) {
+                    $message->from('info@pinomontano.es', 'Marketplace Pino Montano')
+                            ->to($validated['email'])
+                            ->subject('Hemos recibido tu mensaje - Marketplace Pino Montano');
+                }
+            );
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Error al enviar auto-respuesta de contacto: ' . $e->getMessage());
+        }
+
+        return redirect(url()->previous() . '#contacto')->with('contact_success', '¡Gracias por contactar con nosotros! Hemos recibido tu mensaje correctamente y nos pondremos en contacto contigo lo antes posible.');
     }
 }
