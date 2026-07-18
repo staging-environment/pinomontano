@@ -123,8 +123,11 @@
             <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight max-w-3xl mx-auto leading-[1.1]">
                 Descubre los comercios y servicios de <span class="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 bg-clip-text text-transparent">Pino Montano</span>
             </h1>
-            <p class="mt-6 text-lg text-slate-500 max-w-xl mx-auto leading-relaxed">
+            <p class="mt-6 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
                 Apoya a los comercios locales. Encuentra desde bares tradicionales y panaderías artesanas hasta talleres de confianza y peluquerías en tu propio barrio.
+                <span class="block mt-3 font-semibold text-emerald-700 bg-emerald-50/50 inline-block px-4 py-1.5 rounded-xl border border-emerald-100/50 text-xs sm:text-sm">
+                    ✨ Registro 100% gratuito para empresarios. Nuestro único fin es fomentar y apoyar el negocio local de barrio.
+                </span>
             </p>
 
             <!-- Search Form -->
