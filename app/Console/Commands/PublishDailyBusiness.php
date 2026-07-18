@@ -53,8 +53,8 @@ class PublishDailyBusiness extends Command
 
         if ($this->option('name-origin')) {
             $this->info('Publishing name origin story to configured platforms...');
-            $message = "¿Sabías de dónde viene el nombre de \"Pino Montano\"? 🌲 A finales del s. XIX, el hacendado Sr. Montano plantó pinos en su finca para dar sombra a sus jornaleros. Con el tiempo se conoció como \"los pinos de Montano\", dando origen al Cortijo y al posterior barrio obrero. ¡Conoce toda la historia! 👉 " . route('barrio.history');
-            $link = route('barrio.history');
+            $message = "¿Sabías de dónde viene el nombre de \"Pino Montano\"? 🌲 A finales del s. XIX, el hacendado Sr. Montano plantó pinos en su finca para dar sombra a sus jornaleros. Con el tiempo se conoció como \"los pinos de Montano\", dando origen al Cortijo y al posterior barrio obrero. ¡Conoce toda la historia! 👉 " . route('barrio.name-origin');
+            $link = route('barrio.name-origin');
             $publishedCount = 0;
 
             foreach ($configuredPlatforms as $platform) {
@@ -136,7 +136,7 @@ class PublishDailyBusiness extends Command
             $prompts = [
                 [
                     'message' => "¿Sabías de dónde viene el nombre de nuestro barrio \"Pino Montano\"? 🌲 El hacendado Sr. Montano plantó pinos en su finca para dar sombra a sus jornaleros, dando origen al nombre del cortijo y del posterior barrio obrero. ¡Descubre la historia completa! 👉",
-                    'link' => route('barrio.history')
+                    'link' => route('barrio.name-origin')
                 ],
                 [
                     'message' => "¿Sabías que el Cortijo de Pino Montano fue cuna de la Generación del 27? 🎭 Fincas emblemáticas de nuestro barrio acogieron tertulias e inspiraron a poetas como Federico García Lorca y Rafael Alberti gracias al torero Ignacio Sánchez Mejías. ¡Descubre la historia completa de nuestras raíces! 👉",
