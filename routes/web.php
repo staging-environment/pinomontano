@@ -49,6 +49,10 @@ Route::get('/de-donde-vinimos', function () {
     return view('de-donde-vinimos');
 })->name('barrio.origins');
 
+Route::get('/origen-del-nombre', function () {
+    return view('origen-del-nombre');
+})->name('barrio.name-origin');
+
 Route::get('/hacia-donde-vamos', function () {
     return view('hacia-donde-vamos');
 })->name('barrio.future');

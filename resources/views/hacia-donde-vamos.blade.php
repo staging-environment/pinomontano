@@ -43,6 +43,7 @@
             <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
                 <a href="/#comercios" class="hover:text-emerald-600 transition-colors">Comercios</a>
                 <a href="/historia" class="hover:text-emerald-600 transition-colors">Historia</a>
+                <a href="/origen-del-nombre" class="hover:text-emerald-600 transition-colors">El Nombre</a>
                 <a href="/de-donde-vinimos" class="hover:text-emerald-600 transition-colors">Orígenes</a>
                 <a href="/hacia-donde-vamos" class="text-emerald-600 transition-colors">Futuro</a>
                 <a href="/#contacto" class="hover:text-emerald-600 transition-colors">Contacto</a>

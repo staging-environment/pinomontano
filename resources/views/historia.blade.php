@@ -43,6 +43,7 @@
             <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
                 <a href="/#comercios" class="hover:text-emerald-600 transition-colors">Comercios</a>
                 <a href="/historia" class="text-emerald-600 transition-colors">Historia</a>
+                <a href="/origen-del-nombre" class="hover:text-emerald-600 transition-colors">El Nombre</a>
                 <a href="/de-donde-vinimos" class="hover:text-emerald-600 transition-colors">Orígenes</a>
                 <a href="/hacia-donde-vamos" class="hover:text-emerald-600 transition-colors">Futuro</a>
                 <a href="/#contacto" class="hover:text-emerald-600 transition-colors">Contacto</a>
@@ -90,17 +91,9 @@
                     La finca perteneció al mítico torero **Joselito "El Gallo"** y posteriormente al polifacético **Ignacio Sánchez Mejías**. En este cortijo se reunían intelectuales y poetas de la **Generación del 27** como Federico García Lorca, Rafael Alberti, Gerardo Diego y Jorge Guillén, buscando inspiración en la paz y el duende del campo sevillano.
                 </p>
 
-                <!-- Origin of the Name Highlight Card -->
-                <div class="mt-6 p-6 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50/30 border border-emerald-100 text-slate-700 shadow-sm relative overflow-hidden group hover:shadow-md transition-all duration-300">
-                    <div class="absolute -right-6 -bottom-6 text-emerald-100/40 text-7xl font-bold select-none group-hover:scale-110 transition-transform duration-300">🌲</div>
-                    <h3 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
-                        <span class="flex items-center justify-center w-6 h-6 rounded-lg bg-emerald-500 text-white text-xs shrink-0">i</span>
-                        ¿De dónde viene el nombre de "Pino Montano"?
-                    </h3>
-                    <p class="mt-3 text-slate-600 text-xs sm:text-sm leading-relaxed relative z-10">
-                        El nombre de nuestro barrio procede directamente del histórico <strong>Cortijo de Pino Montano</strong>. A finales del siglo XIX, estas tierras agrícolas pertenecían a un hacendado de apellido <strong>Montano</strong>. Para delimitar su propiedad y dar sombra a sus trabajadores y ganado bajo el sol sevillano, el señor Montano plantó una gran cantidad de <strong>pinos</strong> a lo largo de los límites y caminos de la finca. Con el tiempo, los lugareños empezaron a referirse al lugar como «el cortijo de los pinos de Montano», consolidándose como el <strong>Cortijo de Pino Montano</strong> antes de ser adquirido en 1914 por la familia del torero <strong>Joselito "El Gallo"</strong> y posteriormente heredado por su cuñado <strong>Ignacio Sánchez Mejías</strong>. Al urbanizarse la zona a mediados de la década de 1970, la nueva barriada obrera adoptó orgullosamente este nombre tradicional.
-                    </p>
-                </div>
+                <p class="mt-4 p-4 rounded-xl bg-emerald-50/50 border border-emerald-100/50 text-slate-700 text-xs sm:text-sm">
+                    🌲 <strong>¿Quieres conocer en detalle cómo surgió el nombre de nuestro barrio?</strong> Te invitamos a leer nuestro capítulo dedicado al <a href="/origen-del-nombre" class="text-emerald-650 font-bold hover:underline">Origen del Nombre de Pino Montano</a>.
+                </p>
             </div>
             <div class="order-1 lg:order-2">
                 <div class="rounded-3xl overflow-hidden shadow-xl border border-slate-200/60 bg-slate-100 aspect-video">

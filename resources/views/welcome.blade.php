@@ -71,6 +71,7 @@
             <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
                 <a href="#comercios" class="hover:text-emerald-600 transition-colors">Comercios</a>
                 <a href="{{ route('barrio.history') }}" class="hover:text-emerald-600 transition-colors">Historia</a>
+                <a href="{{ route('barrio.name-origin') }}" class="hover:text-emerald-600 transition-colors">El Nombre</a>
                 <a href="{{ route('barrio.origins') }}" class="hover:text-emerald-600 transition-colors">Orígenes</a>
                 <a href="{{ route('barrio.future') }}" class="hover:text-emerald-600 transition-colors">Futuro</a>
                 <a href="#contacto" class="hover:text-emerald-600 transition-colors">Contacto</a>
